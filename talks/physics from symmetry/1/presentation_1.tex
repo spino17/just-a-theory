@@ -1,0 +1,532 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{physics}
+%\usepackage {tikz}
+\usepackage{tkz-graph}
+\DeclareMathOperator*{\argminA}{arg\,min} % Jan Hlavacek
+\DeclareMathOperator*{\argminB}{argmin}   % Jan Hlavacek
+\DeclareMathOperator*{\argminC}{\arg\min}   % rbp
+\GraphInit[vstyle = Shade]
+\tikzset{
+  LabelStyle/.style = { rectangle, rounded corners, draw,
+                        minimum width = 2em, fill = yellow!50,
+                        text = red, font = \bfseries },
+  VertexStyle/.append style = { inner sep=5pt,
+                                font = \normalsize\bfseries},
+  EdgeStyle/.append style = {->, bend left} }
+\usetikzlibrary {positioning}
+%\usepackage {xcolor}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Short title]{Physics, Symmetries and All That - Classical Field Theory} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Bhavya Bhatt}
+\institute[Indian Institute of Technology Mandi]{\includegraphics[width=2cm]{Images/logo_hires.jpg}\\Indian Institute of Technology Mandi} % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+\begin{frame}
+\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+
+\section{Notation}
+\begin{frame}{Instructions}
+    \begin{itemize}
+        \item Important comments are in \textbf{bold}
+        \item The slides contains a lot of buzz words marked in \textcolor{red}{red}, your job is to just note them, go back and google them !
+        \item Don't bother much about equations but rather try to get the big picture
+    \end{itemize}
+\end{frame}
+\section{Introduction}
+\begin{frame}{How Physicists model the World ?}
+For most of the (almost all) physical systems, all their dynamics can be captured by action $S[\phi]$ given by
+\vspace{5mm}
+    \begin{center}
+        $ S[\phi] = \int d^{4}x \mathcal{L}(\phi, \partial_{\mu}\phi, \cdots) $
+    \end{center} where $\phi(x)$ are degrees of freedom of you system (infinite) for example in your undergrad mechanics course $[q_{i}, p_{i}]_{i=1\cdots N}$ where the D.O.F's. \\
+\vspace{5mm}
+\textbf{What the heck is $\mathcal{L}$ in the above innocent looking expression ...}
+\vspace{10mm}
+\begin{center}
+    Let's see how to construct this $\mathcal{L}$
+\end{center}
+\end{frame}
+\section{Lagrangian Formulation}
+\begin{frame}{Construction of Lagrangian}
+You include all terms in $\mathcal{L}$ which obey following symmetries. These symmetries are result of very intuitive notion that Physics should be independent of where we are doing the experiment, at what time we are doing it, whether my new lab has different orientation than my old lab or if I my lab is on a constantly speeding train!
+\vspace{5mm}
+\begin{itemize}
+    \item Translations in space
+    \item Translations in time
+    \item Spacial Rotations
+    \item Boosts (spacetime rotations)
+\end{itemize} 
+\vspace{5mm}
+\begin{centre}
+\textbf{Interestingly these symmetry transformations form a group called as \textcolor{red}{Poincare Group}}
+\end{centre} \\
+Another type of symmetries of Lagrangian are internal symmetries which we will discuss later.
+\end{frame}
+\begin{frame}{Crash Slide on Groups}
+Groups is a set $(G, \circ)$ with the following properties
+\begin{itemize}
+    \item $g_{1}, g_{2} \in G$ then $g_{1}\circ g_{2} \in G$ (closure)
+    \item $g_{1}\circ(g_{2}\circ g_{3}) = (g_{1}\circ g_{2})\circ g_{3}$ (assosiativity)
+    \item There exist an element $e\in G$ such that for any $g \in G$, we have $e\circ g = g$
+    \item For every element $g\in G$, there exists an element $g^{-1}$ such that $g^{-1}\circ g = g\circ g^{-1}=e$
+\end{itemize} 
+\vspace{5mm}
+for example rotation matrix : 
+$\begin{pmatrix}
+cos\theta & -sin\theta\\
+sin\theta & cos\theta
+\end{pmatrix}$ 
+where $\theta$ is a continuous parameter (hence this is a continuous group - \textcolor{red}{SO(2)})
+\end{frame}
+\begin{frame}{Some important groups in Physics - O(N), SO(N)}
+    \textbf{Orthogonal $O(N)$ and Special Orthogonal $SO(N)$ Groups} \\
+    Consider real vector space $V$ of dimension $N$ with euclidean metric ($v.v = v^{1}v^{1} + \cdots + v^{N}v^{N}$) and let $v\in V$, then we define orthogonal transformations (linear) to be one that leaves length of vector unchanged, $v \to Rv$
+    \begin{align*}
+        v^{\prime}.v^{\prime} &= v^{\intercal}v \\
+            &= v^{\intercal}R^{\intercal}Rv \\
+            &= v^{\intercal}v
+    \end{align*} from this we get $R^{\intercal}R = I$ as the defining condition orthogonal groups. We say any $R$ satisfying above condition is in group $O(N)$. We can take $\det$ both sides and we get
+    $\det R = \pm 1$, so all the $R$ with $\det R = +1$ gives us a closed subgroup $SO(N)$ (why not $\det R = -1 ?$)
+\end{frame}
+\begin{frame}{Some important groups in Physics - U(N), SU(N)}
+    \textbf{Orthogonal $U(N)$ and Special Orthogonal $SU(N)$ Groups} \\
+    We repeat the same process for complex vector space and define metric to be $v.v = v^{\dagger}v = \mid{v^{1}}\mid^{2} + \cdots \mid{v^{N}}\mid^{2}$, where $v^{\dagger} = v^{*\intercal}$. \\
+    \vspace{10mm}
+    We get defining condition for unitary transformation $U^{\intercal}U = I $ $U(N)$ and special unitary transformation by $\det U = +1$ \\
+    \vspace{5mm}
+    One interesting case $N=1$, $U(1)$ is just set of complex number $\mid z\mid = 1$ and so we have \\
+    \begin{equation}
+        U(1) = \{\exp(i\alpha) | \alpha\in [0, 2\pi)\}
+    \end{equation} where $\alpha$ is the parameter.
+\end{frame}
+\begin{frame}{Crash Course on Lie Algebras}
+There is one more thing which is special about the above groups (Poincare Group), that is within small enough region close to $e$, the elements can be uniquely expressed as
+\begin{equation}
+    g = \exp(i \theta^{a}T_{a})
+\end{equation} where $T_{a}$ are called \textcolor{red}{generators of group} and they live in a vector space $\mathcal{G}$ called as Lie Algebra (equipped with a commutator), $\theta^{a}$ are parameters. Groups that can be written like this are called \textcolor{red}{Lie Groups}. Group axioms imposes some conditions on generators which are
+\begin{itemize}
+    \item $[T_{a}, T_{b}] = if_{abc}T_{c}$ (closure), $f_{abc}$ are called structure constants and contains all the information regarding group composition
+    \item $[T_{a}, [T_{b}, T_{c}]] + [T_{c}, [T_{a}, T_{b}]] + [T_{b}, [T_{c}, T_{a}]] = 0$ (associativity)
+\end{itemize} where $[ , ]\colon \mathcal{G} \times \mathcal{G} \to \mathcal{G}$ is abstractly defined by Jacobi identity (above second identity).
+\footnote{For mathematical audience : These groups have manifold structure $G$ and the above expression is exponential map originating from $e$ and $\mathcal{G}$ is just tangent space at $e$ i.e $T_{e}G$.}
+\end{frame}
+\begin{frame}{Representations of Lie Algebra}
+We are physicists and above abstractly defined lie algebra is of no use to us, so what we do is to find linear algebraic objects (like matrices) which satisfy the exact same above commutation relation with composition to be matrix multiplication ! \\
+\begin{equation}
+    D\colon G\to Aut(V)
+\end{equation} such that 
+\begin{equation}
+    D(g_{1}\circ g_{2}) = D(g_{1}).D(g_{2})
+\end{equation} where $.$ is matrix multiplication.
+Finding these matrices are central to the subject of \textcolor{red}{representation theory}. \\
+\vspace{5mm}
+For example in your undergrad QM course, when you worked out vector space spanned by $\ket{l, m}$ with dimension $dim = 2l+1 $ which were eigenstates of $J^{2}, J_{z}$ where $l=0, \frac{1}{2}, \cdots$ and $m = -l\cdots l $ , you were truly working out representation theory for the angular momentum algebra $[J_{i}, J_{j}] = i\epsilon_{ijk}J_{k}$ (called as \textcolor{red}{SU(2)}) using \textcolor{red}{Highest Weight Representations Procedure}
+\end{frame}
+\begin{frame}{Proof}
+We are interested in Hermitian representations of algebra (So that group representations are Unitary - we will at least prove this !)
+Let us consider that we have a unitary representation $U(g)$ such that $U^{\dagger}U = I$, and because $G$ is also a lie group so we can write this condition as below
+\begin{equation}
+    U^{\dagger}U = I = e^{-i\epsilon T^{\dagger}}e^{iT}
+\end{equation} now consider infinitesimal $\epsilon$ and so we can write
+\begin{align}
+    (I - i\epsilon T^{\dagger})(I + i\epsilon T) &= I \\
+             I + i\epsilon T - i\epsilon T^{\dagger} + O(\epsilon^{2}) &= I \\
+\end{align} which gives us $T = T^{\dagger}$ , Hermitian !
+\end{frame} 
+\begin{frame}{Proof}
+    Also if the group element has $\det M = +1$ then using the identity
+    \begin{equation}
+        \det M = \exp{Tr(L)}
+    \end{equation} where $L$ satisfies $M = \exp{L}$ \\
+    \vspace{5mm}
+    $\det M = +1 = e^{0}$ so, we get $Tr(L) = 0$
+\vspace{5mm}
+Applying this to lie groups, we get traceless generators.
+So the condition of unitarity and $\det U = 1$ on group elements translates into hermitian and traceless generators.
+\end{frame}
+\begin{frame}{Irreducible Representations}
+    Let the representation be in a vector space $V$ and you have a subspace $U$ such that we have a projection operator $P_{u}$ which projects an arbitrary vector in $V$ to subspace $U$, then $U$ is called invariant subspace if following is satisfied (where $\ket{v}\in V$)
+    \vspace{5mm}
+    \begin{equation}
+        P_{u}D(g)P_{u}\ket{v} = D(g)P_{u}\ket{v}
+    \end{equation} 
+    \vspace{5mm}
+    and we can write $D(g) = D_{u}(g)\bigoplus D^{\prime}(g)$ (\textcolor{red}{block diagonal form}) and then you can continue this process for $D^{\prime}(g)$ till no more such subspace is there (the space is invariant subspace of itself) and you get the following direct sum form for any reducible representations
+    \begin{equation}
+        D(g) = \bigoplus _{i} D_{i}(g)
+    \end{equation}Then each $D_{i}(g)$ is called irreducible representations
+\end{frame}
+\begin{frame}{Compact Lie Groups and Non-Compact Lie Groups}
+Compact Lie Groups - Group manifold is \textcolor{red}{compact} for example $SU(N)$ \\
+\vspace{5mm}
+Non Compact Lie Group - You guess what it should be !! \\
+\vspace{8mm}
+For compact Lie groups (\textcolor{red}{Simple}) we have well defined procedures for obtaining unitary irreducible representations - Highest Weight Representations, \textcolor{red}{Cartan Classification}, \textcolor{red}{Dykin Diagrams} \\
+\vspace{10mm} 
+\textbf{BAD NEWS - Poincare Group is NON-COMPACT !! and so we cannot have finite dimensional unitary representation for Poincare Group and if that is the case then we cannot write relativistic quantum theory with finite dimensional objects !!}
+\end{frame}
+\begin{frame}{Lorentz Group}
+    From special relativity we have an inner product defined as $V.V = \eta_{\mu\nu}V^{\mu}V^{\nu}$, where $V^{\mu}$ is an arbitrary 4-vector (on Minkowski manifold and $\eta_{\mu\nu} = Diag(1, -1, -1, -1))$
+    and so we define Lorentz transformation to be the one which leaves this quantity invariant and so $V^{\mu}\to \Lambda^{\alpha}_{\mu}V^{\mu}$ and the  $V^{\prime}.V^{\prime}$ becomes 
+    \begin{align}
+        V^{\prime}.V^{\prime} &= \eta_{\alpha\beta}\Lambda^{\alpha}_{\mu}V^{\mu}\Lambda^{\beta}_{\nu}V^{\nu} \\
+            &= \eta_{\alpha\beta}\Lambda^{\alpha}_{\mu}\Lambda^{\beta}_{\nu}V^{\mu}V^{\nu} \\
+            &= V.V = \eta_{\mu\nu}V^{\mu}V^{\nu}
+    \end{align} and so conclude the following condition for $\Lambda$ to be a Lorentz transformation as
+    \begin{equation}
+        \Lambda^{\intercal}\eta\Lambda = \eta
+    \end{equation}
+    you can check that all $\Lambda$ satisfying above condition will form a group !!
+\end{frame} 
+\begin{frame}{Lorentz Group Continued ...}
+    Also we can see that $det(\Lambda)= +1$ or $-1$, which are not \textcolor{red}{connected} ! we would like to work with $\lambda$ with $det = 1$. We will be even more restrictive and choose only those $\Lambda$ with $\Lambda^{0}_{0} \geq 0$ such that time orientations are preserved. We call such a $\Lambda$ proper orthochronous Lorentz Group $\Lambda_{+}$. \\
+    \vspace{5mm}
+    Now Lorentz group is a lie group and thus any element $D(g)$ can be written as $D(g) = (1 + \omega)$ where $D(g)$ is 4-dimensional representation of Lorentz group and $\omega$ is infinitesimal. Putting this into the above condition we get 
+    \begin{align}
+        \eta_{\alpha\beta}(\delta^{\alpha}_{\mu} + \omega^{\beta}_{\mu})(\delta^{\beta}_{\nu} + \omega^{\beta}_{\nu}) &= \eta_{\mu\nu} \\
+    \end{align} from which we get $\omega_{\alpha\beta} = -\omega_{\beta\alpha}$, where $4\times 4$ antisymmetric matrix have 6 independent components.
+\end{frame}
+\begin{frame}{Lorentz Group Continued ...}
+We can now express Lorentz transformation of any dimensional representation (\textbf{not unitary of course !}) as follows
+\begin{equation}
+    \Lambda^{a}_{b} = \exp{-i\frac{1}{2}\omega_{\mu\nu}(J^{\mu\nu})^{a}_{b}}
+\end{equation}, which can be used to re express 4 dimensional form $\omega_{\mu\nu}$ as 
+\begin{equation}
+    -i \frac{1}{2}\omega_{\mu\nu}(J^{\mu\nu})^{\alpha}_{\beta} = \omega^{\alpha}_{\beta}
+\end{equation} which can be simplified as 
+\begin{align}
+    -i\frac{1}{2}\omega_{\mu\nu}(J^{\mu\nu})^{\alpha}_{\beta} &= \omega_{\mu\beta}\eta^{\mu\alpha} = \omega_{\mu\nu}\eta^{\mu\alpha}\delta^{\nu}_{\beta} \\
+                                                              &= \frac{1}{2}\omega_{\mu\nu}(\eta^{\mu\alpha}\delta^{\nu}_{\beta} - \eta^{\nu\alpha}\delta^{\mu}_{\beta})
+\end{align}
+\end{frame} 
+\begin{frame}{Lorentz Group Continued ...}
+    comparing both sides we get
+\begin{equation}
+    (J^{\mu\nu})^{\alpha}_{\beta} = i(\eta^{\mu\alpha}\delta^{\nu}_{\beta} - \eta^{\nu\alpha}\delta^{\mu}_{\beta})
+\end{equation} from which we can also obtain the Lorentz algebra - $so(1, 3)$ (check yourself !)
+\begin{equation}
+    [J^{\mu\nu}, J^{\rho\sigma}] = i(\eta^{\nu\rho}J^{\mu\sigma} - \eta^{\mu\rho}J^{\nu\sigma} - \eta^{\nu\sigma}J^{\mu\rho} + \eta_{\mu\sigma}J^{\nu\rho})
+\end{equation} \\
+\vspace{5mm}
+So now our task is to obtain different dimensional irreducible representations of this algebra and we will see what type of objects can appear in Lagrangian ! 
+\end{frame}
+\begin{frame}{Lorentz Group Continued ...}
+Let us define $J^{i} = \frac{1}{2}\epsilon^{ijk}J^{jk}$ and $K^{i} = J^{0i}$ and similarly $\theta^{i} = \frac{1}{2}\epsilon^{ijk}\omega^{jk}$ and $\eta^{i} = \omega^{0i}$ and so we have
+\begin{equation}
+    \Lambda = \exp(-i\theta.J + i\eta.K)
+\end{equation} and the Lorentz algebra can be written as
+\begin{equation}
+    [J^{i}, J^{j}] = i\epsilon^{ijk}J^{k}
+\end{equation}
+\begin{equation}
+    [J^{i}, K^{j}] = i\epsilon^{ijk}K^{j}
+\end{equation}
+\begin{equation}
+    [K^{i}, K^{j}] = -i\epsilon^{ijk}J^{k}
+\end{equation} which on redefination $J_{\pm} = \frac{J \pm iK}{2}$ gives us two mutually exclusive closed $su(2)$ algebras, 
+\end{frame}
+\begin{frame}{Lorentz Group Continued ...}
+\begin{equation}
+    [J^{+i}, J^{+j}] = i\epsilon^{ijk}J^{+k}
+\end{equation}
+\begin{equation}
+    [J^{-i}, J^{-j}] = i\epsilon^{ijk}J^{-k}
+\end{equation}
+\begin{equation}
+    [J^{-i}, J^{+j}] = 0
+\end{equation} \\
+\vspace{5mm}
+so we managed to show that $so(1, 3) \cong su(2) \times su(2)$\footnote{For mathematical readers it will be interesting to know that $so(1, 3)$ is not exactly isomorphic to $su(2) \cross su(2)$ but rather it's covering space $ sl(s, C)$ is. Because we are working out Lie Algebra structure and would be working in sufficient local region to identity of group we can do representation theory for $sl(2, C)$.}. We can now use representation theory of $su(2)$ which you all are familiar with (from angular momentum theory in QM course !), because we have product so we will need two number $(j_{1}, j_{2})$ rather than one $j$ and so we can start writing irreducible representations of different dimensions few of which are shown below
+\end{frame}
+\begin{frame}{Lorentz Group Continued ...}
+\begin{itemize}
+    \item (0, 0) - scalar
+    \item (1/2, 0) - Left Spinor
+    \item (0, 1/2) - Right Spinor
+    \item (1/2, 1/2) - 4-vector (Surprising that 4-vector is not the lowest dimensional object which responds to Lorentz transformations)
+\end{itemize} \\
+\vspace{5mm}
+What we have done is that we have obtained spinor representations of the Lorentz Group (which are not unitary as they are finite dimensional !)
+So in our Lagrangian also we use can different types of field $\phi(x)$ which can be scalar (\textcolor{red}{Klein Gordon Field}), spinor field (\textcolor{red}{Weyl Spinor Field or Dirac Field}), 4-vector field (\textcolor{red}{Electromagnetic Field or Yang-Mills Fields} in general) and so on. Also do look up to what is 
+\begin{center}
+    \textcolor{red}{"Noether's Theorem"}
+\end{center}
+\end{frame}
+\begin{frame}{Infinite Dimensional Representation of Lorentz Group}
+    Consider $\phi(x)$ be a scalar field, it does not change under Lorentz transformations and so we can write 
+    \begin{equation}
+        \phi(x) = \phi^{\prime}(x^{\prime})
+    \end{equation} where $x^{\prime\mu} = x^{\mu} + \omega^{\mu}_{\alpha}x^{\alpha}$, and so we can write
+    \begin{equation}
+        \phi(x) = \phi^{\prime}(x^{\mu} + \omega^{\mu}_{\alpha}x^{\alpha})
+    \end{equation}
+    \begin{align}
+        \phi(x^{\mu} - \omega^{\mu}_{\alpha}x^{\alpha}) &= \phi^{\prime}(x^{\mu}) \\
+                                                                    &= 
+                                                                    \phi^{\prime}(x^{\mu}) \\
+                                                                    \phi(x^{\lambda}) - \omega_{\mu\alpha}x^{\alpha}\partial^{\mu}\phi(x^{\lambda}) &= \phi^{\prime}(x^{\lambda})
+    \end{align} comparing this with $(1 - \frac{1}{2} i\omega_{\mu\alpha}M^{\mu\alpha})\phi(x^{\lambda}) = \phi^{\prime}(x^{\lambda})$
+\end{frame}
+\begin{frame}{Functional Representation of Lorentz Group}
+    We get,
+    \begin{align}
+        \frac{1}{2} i\omega_{\mu\alpha}M^{\mu\alpha}\phi(x^{\lambda}) &= \omega_{\mu\alpha}x^{\alpha}\partial^{\mu}\phi(x^{\lambda}) \\
+                                                                      &= 
+                                                                      \frac{1}{2}\omega_{\mu\alpha}(x^{\alpha}\partial^{\mu}\phi(x^{\lambda}) - x^{\mu}\partial^{\alpha}\phi(x^{\lambda})) \\
+    \end{align} and by comparing both sides we get 
+    \begin{equation}
+        M^{\mu\alpha} = i(x^{\mu}\partial^{\alpha} - x^{\alpha}\partial^{\mu})
+    \end{equation} which is infinite dimensional representation of Lorentz Algebra
+\end{frame}
+\begin{frame}{Poincare Group}
+    Poincare transformations = Lorentz transformations + Translations \\
+    Translations\colon x^{\mu} \to x^{\mu} + a^{\mu} \\
+    So we write it in lie group exponential form
+    $T = \exp(-ia_{\mu}P^{\mu})$, where $P^{\mu} = i\partial^{\mu}$ and finally we can write down the complete algebra of Poincare Group
+    \begin{align*}
+        [J^{i}, J^{j}] &= i\epsilon^{ijk}J^{k} \\
+        [J^{i}, K^{j}] &= i\epsilon^{ijk}K^{k} \\
+        [J^{i}, P^{j}] &= i\epsilon^{ijk}P^{k} \\
+        [K^{i}, K^{j}] &= -i\epsilon^{ijk}J^{k} \\
+        [P^{i}, P^{j}] &= 0 \\
+        [K^{i}, P^{j}] &= iH\delta^{ij} \\
+        [J^{i}, H] &= 0, [P^{i}, H] = 0, [K^{i}, H] = iP^{i}
+    \end{align*} observe that, $J$ and $P$ commutes with $H$ but $K$ does not so we use $J$ and $P$ to label particle states because they are constant !
+\end{frame}
+\begin{frame}{Fundamental Particles}
+    \begin{center}
+        Fundamental Particles are irreducible representations of Poincare Group labelled by mass and spin !
+    \end{center}
+    We use eignevalues of \textcolor{red}{Casimir Operators} to get labels for each irreducible representation, for Poincare group we have two Casimir Operators
+    \begin{equation}
+        P^{\mu}P_{\mu} = m^{2}
+    \end{equation}
+    \begin{equation}
+        W^{\mu}W_{\mu} = W
+    \end{equation} where $W^{\mu} = -\frac{1}{2}\epsilon^{\mu\nu\rho\sigma}J_{\nu\rho}P_{\sigma}$ called as \textcolor{red}{Pauli–Lubanski 4-vector} \\
+    \vspace{5mm}
+    You have seen Casimir Operators before, when working with angular momentum theory, $J^{2}$ is the Casimir Operator there whose eigenvalues are $j$ and thus we wrote states in that representation to be $\ket{j, m}$ which is just labelling each $2j+1$ dimensional IR !
+\end{frame}
+\begin{frame}{Lagrangian is Back, finally !}
+    Now the strategy is clear and can be stated as
+    \begin{itemize}
+        \item Choose what kind of fields you will work with (many times it is decided by observing polarization of the systems - internal structure by doing basic experiments)
+        \item Once type of field is fixed then construct objects from fields and their derivatives (lowest non-trivial\footnote{We include only non-trivial powers because when in general higher order terms have associated couplings to have powers of negative cut-off energy which makes the interaction irrelevant in the regime of low energy physics and so can be removed completely from the dynamics.}) which are Lorentz invariant (indicies are contracted) for example in case of scalar field $\phi(x)$ one term can be $(\phi(x))^{2}$ and for vector fields it can be $A_{\mu}A^{\mu}$ and so on (for spinors it is much more subtle to construct scalars)
+        \item Congratulations ! you have just wrote down a theory ! 
+    \end{itemize}
+\end{frame}
+\begin{frame}{Classical Equations of Motions}
+Classically, the equation of motion governing the dynamics of the field $\phi(x)$ can be worked out from principle of least action 
+\begin{align}
+    \delta S[\phi] &= \delta \int d^{4}x \mathcal{L}(\phi, \partial_{\mu}\phi) \\
+                   &= \int d^{4}x \frac{\delta S}{\delta\phi(x)}\delta\phi(x) + \int\int d^{4}xd^{4}y \frac{\delta^{2} S}{\delta \phi(x)\delta\phi(y)}\delta\phi(x)\delta\phi(y)\cdots \\
+\end{align} ignoring higher order terms we set 
+\begin{equation}
+    \frac{\delta S}{\delta \phi(x)} = \frac{\partial\mathcal{L}}{\partial\phi} - \partial_{\mu}(\frac{\partial\mathcal{L}}{\partial\partial_{\mu}\phi}) = 0
+\end{equation} which is field theoretic version of Euler-Lagrange Equations.
+\end{frame}
+\begin{frame}{Complex Scalar Field}
+    We can now write simplest Lorentz scalar Lagrangian involving complex scalar field as
+    \begin{equation}
+        \mathcal{L} = \partial^{\mu}\phi^{\dagger}\partial_{\mu}\phi  - m^{2}\phi^{\dagger}\phi
+    \end{equation} for which equation of motion is (considering $\phi$ and $\phi^{\dagger}$ as independent fields)
+    \begin{equation}
+        \partial_{\mu}\partial^{\mu}\phi^{\dagger} = m^{2}\phi^{\dagger}
+    \end{equation}
+    \begin{equation}
+        \partial_{\mu}\partial^{\mu}\phi = m^{2}\phi
+    \end{equation} \\
+    \vspace{5mm}
+    Now observe that apart from spacetime symmetries, this Lagrangian also has an internal symmetry $\phi(x) \to e^{i\alpha}\phi(x)$ and $\phi^{\dagger}(x)\to e^{-i\alpha}\phi^{\dagger}(x)$. \textbf{This will give us an opportunity to add interaction terms in the Lagrangian !}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Interaction Terms}
+    A general idea which is extremely successful to explain all the interactions in standard model of particle physics is the following \\
+    \begin{center}
+        \textbf{Build Lagrangian which have continuous global internal symmetry, then make it local ! by using gauge fields, the matter will interact via these gauge fields only}
+    \end{center} the gauge group of internal symmetries determine which gauge field to use, in standard model of particle physics
+    \begin{itemize}
+        \item $U(1) - $ Electromagnetic Interaction via $A_{\mu}$ (1 photon)
+        \item $SU(2) - $ Weak Interaction via $W^{a}_{\mu}$ (3 W and Z bosons)
+        \item $SU(3) - $ Strong Interaction via $G^{a}_{\mu}$ (8 gluons) \footnote{These number of gauge bosons are related to the dimension of lie algebra, one gauge particle for each generator $T_{a}$.}
+    \end{itemize}
+    These gauge bosons also have dynamical nature which is governed by \textcolor{red}{Yang-Mills} action.
+\end{frame}
+\begin{frame}{Covariant Derivative}
+    Local symmetry is when the group parameter is a function of spacetime. So in above example we have $\exp{i\alpha(x)}$. As soon as we make global symmetry local our Lagrangian no longer respects the symmetry, because of the below term
+    \begin{equation}
+        \partial_{\mu}(\exp{i\alpha(x)}\phi(x)) \neq \exp{i\alpha(x)}\partial_{\mu}\phi(x)
+    \end{equation} so instead we change $\partial_{\mu}$ to $D_{\mu}$ called as covariant derivative defined as below
+    \begin{equation}
+        D_{\mu}\exp{i\alpha(x)}\phi(x) = \exp{i\alpha(x)}D_{\mu}\phi(x)
+    \end{equation} We state (without proof) that such a covariant derivative can be written as
+    \begin{equation}
+        D_{\mu} = \partial_{\mu} - igA_{\mu}(x)
+    \end{equation} \\
+    if $A_{\mu}(x)$ transforms as $A_{\mu}(x)\to A_{\mu}(x) - g\partial_{\mu}\alpha(x)$ (this gauge symmetry is same which we have in electromagnetic field $A_{\mu}(x)$)
+\end{frame}
+\begin{frame}{Covariant Derivative Continued ...}
+    U(1) - D_{\mu} = \partial_{\mu} - igA_{\mu}(x) \\
+    \vspace{5mm}
+    SU(2) - D_{\mu} = \partial_{\mu} - igA^{a}_{\mu}(x)T_{a}, a=1,2,3\ where\  $T_{a}$ are generators of $su(2)$ \\
+    \vspace{5mm}
+    SU(3) - D_{\mu} = \partial_{\mu} - igA^{a}_{\mu}(x)T_{a}, a=1\cdots 8\  where\ $T_{a}$ are generators of $su(3)$ \\
+    \vspace{5mm}
+    where now $A^{a}_{\mu}$ has a more general gauge transformation 
+    \begin{equation}
+        A^{\prime a}_{\mu} = gA^{a}_{\mu}g^{-1} - \frac{i}{g}\partial_{\mu}gg^{-1}
+    \end{equation} where\footnote{For mathematical audience - see gauge transformation of connection one-forms and curvature 2-forms for more geometric and elegant interpretation of everything which we are doing here.}
+    \begin{equation}
+        g = \exp{i\theta^{a}(x)T_{a}}
+    \end{equation}
+\end{frame}
+\begin{frame}{Yang-Mills Action}
+The dynamics of lie group local gauge invariant purely kinetic term is given by \textcolor{red}{Yang-Mills action}
+\begin{align*}
+    S_{YM}[A] &= -\frac{1}{4}\int Tr(F\wedge *F) \\
+              &= \int_{M^{4}} d^{4}x F^{a\mu\nu}F^{a}_{\mu\nu}
+\end{align*} where $F^{a}_{\mu\nu} = \partial_{\mu}A^{a}_{\nu} - \partial_{\nu}A^{a}_{\mu} + gf_{abc}A^{a}_{\mu}A^{a}_{\nu}$ is Yang-Mills strength. For U(1) case, $f_{abc} = 0$ and $F_{\mu\nu}$ converges to familiar electromagnetic field strength tensor !
+\end{frame}
+\begin{frame}{Complex Scalar QED}
+We can now write down the complete Lagrangian for a complex scalar field interacting with electromagnetic field (U(1) local gauge symmetry) as
+\begin{equation*}
+    \mathcal{L} &= D^{\mu}\phi^{\dagger}D_{\mu}\phi  - m^{2}\phi^{\dagger}\phi - \frac{1}{4} F^{\mu\nu}F_{\mu\nu}
+\end{equation*}
+\begin{multline}
+    \mathcal{L} = \partial^{\mu}\phi^{\dagger}\partial_{\mu}\phi - ig\partial^{\mu}\phi^{\dagger}A_{\mu}\phi + igA^{\mu}\phi^{\dagger}\partial_{\mu}\phi + g^{2}A_{\mu}A^{\mu}\phi^{\dagger}\phi - m^{2}\phi^{\dagger}\phi - \\ \frac{1}{4}F^{\mu\nu}F_{\mu\nu}
+\end{multline}
+\begin{equation}
+    \mathcal{L} = \mathcal{L}_{fc} + \mathcal{L}_{fe} + \mathcal{L}_{int}
+\end{equation} where 
+\begin{equation}
+    \mathcal{L}_{fc} = \partial^{\mu}\phi^{\dagger}\partial_{\mu}\phi - m^{2}\phi^{\dagger}\phi
+\end{equation}
+\begin{equation}
+    \mathcal{L}_{fe} = -\frac{1}{4}F^{\mu\nu}F_{\mu\nu}
+\end{equation}
+\begin{equation}
+    \mathcal{L}_{int} = - (ig\partial^{\mu}\phi^{\dagger}A_{\mu}\phi - igA^{\mu}\phi^{\dagger}\partial_{\mu}\phi) + g^{2}A_{\mu}A^{\mu}\phi^{\dagger}\phi
+\end{equation}
+\end{frame}
+\begin{frame}{What's Next ? - General Scheme}
+    Now we can expand the scheme of constructing a physical theory 
+    \begin{itemize}
+        \item Choose what type of field you want (which representation of Poincare Group)
+        \item Form scalars out of that containing fields and lowest non-trivial derivatives of fields
+        \item To add interactions, first add appropriate global internal symmetries (U(1) for EM, SU(2) for Weak and SU(3) for Strong) between multiplets of fields.
+        \item Make the global internal symmetry to local gauge symmetry by minimal-coupling ($\partial_{\mu}\to D_{\mu}$).
+        \item Add kinetic dynamical term of the gauge fields also by Yang-Mills term.
+        \item You are now a proud founder of a field theory, go ahead and do perturbation theory to solve E-L equation or just go quantum (in part 2)!
+    \end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+\bibitem{tishby} H.~Georgi, ``Lie Algebras in Particle Physics,'', 1982.
+\bibitem{Shwartz} J.~schwichtenberg, ``Physics from Symmetry,'', 2018.
+
+\end{thebibliography}
+}
+\end{frame}
+\end{document}

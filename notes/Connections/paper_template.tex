@@ -1,0 +1,679 @@
+\documentclass[12pt]{article}
+
+%\include{definitions}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\usepackage{verbatimbox}
+\newcommand{\matr}[1]{\mathbf{#1}}
+\usepackage{url}
+\usepackage{faktor}\usepackage{amsmath}\usepackage{amssymb}
+
+%To edit easily
+\newcommand{\rem}[1]{\textbf{\color{red}[[#1]]}}
+\newcommand{\add}[1]{\textbf{\color{blue}#1}}
+\newcommand{\com}[1]{\textbf{\color{OliveGreen}[[#1]]}}
+%\usepackage{lineno}
+%\linenumbers
+\usepackage{verbatim}
+\usepackage[thinc]{esdiff}
+\usepackage{indentfirst}
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{authblk}
+\usepackage{physics}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{xcolor}
+%\usepackage{fancyhdr}
+\usepackage[]{hyperref}
+%\hypersetup{
+%	colorlinks=true,
+%	linkcolor=black,
+%	filecolor=black,      
+%	urlcolor=black,
+%	citecolor=black
+%}
+\hypersetup{
+	colorlinks=true,
+	linkcolor={black},
+	citecolor={cyan!80!black},
+	filecolor={red!60!green},      
+	urlcolor={magenta!60!black},
+}
+
+
+\usepackage[export]{adjustbox}
+%\usepackage{mathptmx}
+\usepackage{fix-cm}    
+\makeatletter
+\newcommand\HUGE{\@setfontsize\Huge{35}{40}}
+\makeatother    
+
+\newcommand*{\bfrac}[2]{\genfrac{\lbrace}{\rbrace}{0pt}{}{#1}{#2}}
+\title{Connection one-forms, Yang-Mills field and gauge transformations}
+\renewcommand\Authfont{\scshape\small}
+\renewcommand\Affilfont{\itshape\footnotesize}
+\author[1]{Bhavya Bhatt \thanks{bhavyabhatt17@gmail.com}}
+\affil[1]{Indian Institute of Technology Mandi, Mandi 175005, India}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+These notes give a brief introduction to the structure on a principal bundle called as "connections". Intuitively connections as the name suggests provide an unambiguous way to connect points in the nearby fibre space. These then further provides us with a definition of parallel transport of points in the principal bundle. In physics, most of the time we consider frame bundle to be the underlying principal bundle and so with this kind of formalism we get a way to parallel transport a frame from one point to the other in the fibre space\footnote{Imagine this as a curve in the spacetime manifold (base manifold in the language of fibre bundle) such that at each point you have frame attached to that point which is technically basis for the tangent space at that point.}. The axioms of connections are realized through a lie-algebra valued one-form on the principal bundle. There exists many approaches to the above formalism, most of which are those which a mathematician would find easy (as they all are coordinate free !). These notes follow a novel approach in the sense that all results at arbitrary steps readily follow from mostly what a physicist would know which is hard to find in most of the standard text covering the theory of connections. As physicists we are always interested in what happens in coordinate charts of base manifolds and so we will further pull-back the connection one-form on the principal bundle to the base manifold. In the literature this pull-back connection one-form is called Yang-Mills field. We will see that these Yang-Mills fields follow a very particular transformation law under the right action of the structure group. These transformation laws are a result of compatibility conditions which will be discussed in these notes in subsequent sections. Yang-Mills fields are important in physics and particularly in gauge theories where they act as the gauge field that give rise to the interactions between elementary matter fields. These notes assumes a basic understanding of axioms of connections up to the level of \cite{nakahara_book} and we carry on from the connection-one forms itself.
+
+\newpage
+\section{Mathematical Foundations}
+We have principal bundle $P$ and base manifold $M$ with structure lie-group $G$ with lie-algebra $\mathfrak{g} \cong T_{e}G$ with projection map $\pi \colon P \to M$.
+As we know $M \cong \faktor{P}{G}$ from the definition of principal bundle and so $\pi^{-1}(p) \cong G $ where $p \in M$ because the right action is free. Thus we have a natural right action of the group  on the principal bundle
+\[
+\Psi \colon P\times G \to P
+\]
+\[
+\Psi \colon (u, g) \mapsto u.g 
+\] where $u \in P$ and $g \in G$. We can also define the function 
+\[
+\Psi_{g} \colon P \to P
+\] defined by $\Psi_{g}(u) = \Psi(u, g)$.
+In practical calculations we always work along with a local section $\sigma \colon U \to \pi^{-1}(U)$ defined on chart $U$ with the obvious property of $\pi \circ \sigma = id_{M}$. \footnote{Global sections does not always exists eg. No-hair theorem for sphere !} We will use $\Psi(u, g)$ and $u.g$ interchangeably whenever there is no scope of confusion.
+
+\subsection{Section induced local trivialization}
+We can use section to define local trivialization on chart $U$. Let $u \in P$ such that $\exists$ $g \in G$ such that $\Psi(\sigma(\pi(u)), g) = u$ and so we can define local trivialization as
+\[
+\chi \colon P \to U\times G
+\]
+\[
+\chi \colon u\mapsto (\pi(u), g)
+\]
+In fact given a local trivialization we can define a section. \\
+Consider we have been given local trivialization $\chi^{-1} \colon U \times G \to P$ and we want a natural section $\sigma \colon U \to P$ corresponding to this local trivialization. We can choose
+\[
+\sigma \colon p \mapsto \chi^{-1}(p, e)
+\] which is a section as it satisfies $\pi\circ\sigma = id_{M}$. This proves that local trivialization and local section are in one-to-one correspondence.
+\subsection{Maurer-Cartan one-form}
+A Maurer-Cartan form $\Xi_{g} \colon T_{g}G \to T_{e}G \cong \mathfrak{g}$ takes a left invariant vector $V \in T_{g}G$ and maps it to it's generator $A \in \mathfrak{g}$ such that $(L_{g})_{\ast}A = V$. To explain in detail, consider the curve $\gamma(t)=e.\exp(tA)$ such that $\gamma(t_{o})=g$ and so we have a natural curve originating from $g$ given by $c(t) = g.\exp(tA)$ such that $V$ is  tangent vector to this curve and so $\Xi_{g}(V) = A $. Fundamental theorem of ODE's ensures us that such a mapping is well-defined for all $V \in T_{g}G$
+\subsection{Connections}{\label{one-form}}
+Connections is an abstract structure on the principal bundle which provides unambiguous partitioning of tangent space ($T_{u}P$) into vertical subspace ($V_{u}P$) and horizontal subspace ($H_{u}P$)\footnote{Readers are assumed to be familiar with these terms.}. A brief introduction to vertical subspace $V_{u}P$ is as follows: \\
+For any $A \in T_{e}G \cong \mathfrak{g}$, we can induce a left-invariant vector field at each point of the group manifold $G$ by 
+\[
+(L_{g})_{\ast}(A) = V\Bigr|_{g}
+\]Now given initial point $e$ and vector $A \in T_{e}G$ we can form integral curve of the above induced vector field which from the fundamental theorem of ODE's is unique given by
+\[
+\gamma(t) = \exp(tA) \in G
+\]Now we can induce a curve on the principal bundle originating at point $u \in P$ by the right action of the above group
+\[
+c(t) = u.\exp(tA) \in P
+\]which further gives us an induced vector $X \in T_{u}P $at point $u$ defined as
+\[
+X[f] = \diff{f(u.\exp(tA))}{t}\Bigr|_{t=0}
+\]where $f \in C^{\infty}(P)$ and we say $X \in V_{u}P$ and $A \in \mathfrak{g}$ is called the generator of the induced vector $X$. The induced curve at $u$ is completely inside the fibre space at the point $p = \pi(u)$ on the base manifold and hence the name vertical subspace.
+\\
+The partitioning demands the following properties: \\
+\begin{enumerate}
+    \item $T_{u}P = V_{u}P\bigoplus H_{u}P $.
+    \item A smooth vector field $X$ on $P$ is separated into smooth vector fields $X = X_{Ver} + X_{Hor}$.
+    \item $H_{u.g}P = (R_{g})_{\ast}H_{u}P$
+\end{enumerate} These abstract specifications can be practically obtain using a lie-algebra value connection one-form on the principal bundle at each point $u \in P$.
+\subsection{Connection one-form}{\label{property}}
+Connection one-form $\omega \colon T_{u}P \to \mathfrak{g}$ where $u \in P$ have the following defining properties
+\begin{enumerate}
+	\item $\omega(A) = \mathfrak{A}$, where $\mathfrak{A} \in \mathfrak{g}$ and defined to be the generator of induced vector $A \in T_{u}P$.
+	\item $(\Psi_{g})^{\ast}\omega_{u.g}(V) = (Ad_{g^{-1}})_{\ast}(\omega_{u}(V))$.
+\end{enumerate} for any $V$, where $V \in T_{u}P$. The above properties are not completely independent but rather $2$ can be derived from $1$. \\
+Proof:
+\begin{align*}
+    (\Psi_{g})^{\ast}\omega_{u.g}(V) &= \omega_{u.g}((\Psi_{g})_{\ast}(V)) \\
+\end{align*} Now consider the curve $\gamma(t)=u.\exp(tA)$ to which $V$ is tangent at point $u$ and so by definition $\omega_{u}(V) = A $. Now consider the curve for which $(\Psi_{g})_{\ast}(V)$ is tangent at point $u.g$ which is
+\begin{align*}
+    c(t) &= u.\exp(tA).g \\
+         &= u.g.g^{-1}.\exp(tA).g \\
+         &= (u.g).\exp(tg^{-1}.A.g)
+\end{align*} and so this curve has generator $g^{-1}.A.g $. Further \\
+\[
+\omega_{u.g}((\Psi_{g})_{\ast}(V)) = g^{-1}.A.g = g^{-1}\omega_{u}(V)g = (Ad_{g^{-1}})_{\ast}(\omega_{u}(V))
+\] 
+We just proved that property $2$ follows from property $1$ and are not independent but it is good to remember both as they come handy in practical calculations.
+We can define $H_{u}P$ as
+\[
+H_{u}P = \{X \in T_{u}P | \omega(X) = 0\} = Ker(\omega)
+\]
+This section is not exhaustive by any means and some standard text \cite{nakahara_book} is recommended which should be referred parallel to these notes so that any mathematical lacking here can be covered in a much more complete manner.
+\section{Local connection one-form - Yang-Mills field}
+One can check that the above defined connection one-form with the mentioned properties provides us with a successful realization of axiomatic connections on the principal bundles. We can further define parallel transport and even covariant derivative (only if associate bundle is a vector bundle) using the above purely coordinate free connection one-form on the principal bundle. However physicists are interested in how these forms behave on the base manifold (in gauge theories they are the spacetime manifolds) and so in this section we develop the formalism for achieving this task. We assumed before that along with principal bundle we also have a local section $\sigma$. So using $\sigma$ we can obtain one-forms on $M$ as 
+\[
+A = \sigma^{\ast}\omega
+\]which in literature is known as Yang-Mills field for example a theory with $U(1)$ structure group assumes a local one-form $A$ commonly known as electromagnetic vector potential\footnote{Note that the Yang-Mills form are dynamical in nature.}. One can ask the question whether we can reconstruct the connection one-form on principal bundle from the Yang-Mills form. The answer is yes! and now we will derive how one can express connection one-form $\omega$ on principal bundle in terms of Yang-Mills local forms $A$. We will first throw the beast at you so that you can feel less scared during the derivation. The expression is
+\begin{equation}
+    \omega(X) = (Ad_{g^{-1}})_{\ast}(\pi^{\ast}A(X)) + \kappa^{\ast}\Xi_{g}(X)
+\end{equation} where $g = \kappa(u)$ and $\kappa \colon \pi^{-1}(U) \to G$ is defined as follows
+\[
+\Psi(\sigma(\pi(u)), \kappa(u)) = u
+\] which is always well defined because of definition of principal bundle. One obvious property is $\kappa(u.g) = \kappa(u).g $ where  care has to be taken about the notation - $u.g$ denotes right action of $g$ on $u$ and $\kappa(u).g$ denotes group composition. We will only use the properties of connection one-form given in section \ref{one-form} and decomposition of $T_{u}P$ into $T_{p}M\bigoplus T_{g}G$ where $p = \pi(u)$ and $g$ is such that $\sigma(\pi(u)).g = u$ which is just local trivialization of point $u \in P$ in $U\times G$
+\subsection{$T_{u}P \cong T_{p}M\bigoplus T_{g}G$}{\label{decompose}}
+Let $u \in P$ and have a local trivialization in $U\times G$ to be $(\pi(u), \kappa(u))) = (p, g)$. Now consider a curve $\gamma(t)$ in $P$ originating at $u$ whose coordinates in $U\times G$ is $(\pi(\gamma(t)), \kappa(\gamma(t))))$. Both $U$ and $G$ being manifolds have coordinate representations
+\[
+f(\pi(\gamma(t)), \kappa(\gamma(t)))) = (x^{\alpha}(\pi(\gamma(t)), g^{\sigma}_{\rho}(\kappa(\gamma(t))))
+\] where $f$ is combined coordinate map. In these coordinate we can write the vector $X$ tangent at $u = \gamma(0)$ as
+\[
+X = \diff{x^{\alpha}(\pi(\gamma(t))}{t}\Bigr|_{t=0}(\frac{\partial}{\partial x^{\alpha}}\Bigr|_{\pi(u)}) + \diff{g^{\sigma}_{\rho}(\kappa(\gamma(t)))}{t}\Bigr|_{t=0}(\frac{\partial}{\partial g^{\sigma}_{\rho}}\Bigr|_{\kappa(u)})
+\]
+You can see that the first part of $X$ is a vector in $T_{p}M$ and the second part of $X$ is a vector in $T_{g}G$. But we can do better and obtain this decomposition in a more elegant and coordinate free approach (mathematicians all ears !) by considering the following natural mappings 
+\begin{itemize}
+    \item $\pi \colon \pi^{-1}(U) \to U$
+    \item $\kappa \colon \pi^{-1}(U) \to G$
+\end{itemize} 
+which has induced coordinate mappings
+\[
+(x^{\alpha}(\pi(u)), g^{\sigma}_{\rho}(\kappa(u)) \mapsto x^{\alpha}(\pi(u))
+\]
+\[
+(x^{\alpha}(\pi(u)), g^{\sigma}_{\rho}(\kappa(u)) \mapsto g^{\sigma}_{\rho}(\kappa(u))
+\] and now we can write
+\begin{align*}
+    X &= \pi_{\ast}(X) \bigoplus \kappa_{\ast}(X) \\
+      &= \nu \bigoplus \eta
+\end{align*} where $\nu = \pi_{\ast}(X) \in T_{\pi(u)}U$ and $\eta = \kappa_{\ast}(X) \in T_{\kappa(u)}G$ is introduced for notational ease. As promised earlier we will only use the properties of connection one-form and the above decomposition to get a representation in terms of local Yang-Mills form.
+\subsection{Derivation}{\label{derivation}}
+First we derive a very specialized case where the vector $X \in T_{u}P$ on which connection one-form $\omega$ operates is in vertical subspace $V_{u}P$. This case gives an intuition of how the two components ($\nu$ and $\eta$) of any general $X$ contributes to the value of $\omega(X)$. Consider once again the defining relation of local trivialization which is
+\begin{equation}{\label{u}}
+    \Psi(\sigma(\pi(u)), \kappa(u)) = u = \Psi(\sigma\circ x^{-1}\circ x^{\alpha}(\pi(u)), g^{-1}\circ g^{\sigma}_{\rho}(\kappa(u)))
+\end{equation} where we have just inserted coordinate maps $x^{\alpha}$ and $g^{\sigma}_{\rho}$ of $U$ and $G$ respectively. Now consider a curve $\gamma(t)$ originating from $u$ such that $X$ is tangent to the curve at $u$. Let us calculate action of $X$ on general smooth function $f \in C^{\infty}(P)$ \\
+\begin{align*}
+    X[f] &= \diff{f(\gamma(t))}{t}\Bigr|_{t=0} \\
+         &= \diff{f(\Psi(\sigma(\pi(\gamma(t))), \kappa(\gamma(t))))}{t}\Bigr|_{t=0} \\
+         &= \diff{f(\Psi(\sigma\circ x^{-1}\circ x^{\alpha}(\pi(\gamma(t))), g^{-1}\circ g^{\sigma}_{\rho}(\kappa(\gamma(t)))))}{t}\Bigr|_{t=0} \\
+\end{align*} The above expression has two set of variables $\{x^{\alpha}\}$ and $\{g^{\sigma}_{\rho}\}$, so we can decompose the above expression into two terms which we denote by $V_{\sigma}$ and $V_{\kappa}$ where: \\
+\begin{align*}
+    V_{\sigma}[f] &= \frac{\partial f(\Psi(\sigma\circ x^{-1}\circ x^{\alpha}(\pi(\gamma(t))), g^{-1}\circ g^{\sigma}_{\rho}(\kappa(\gamma(t)))))}{\partial x^{\alpha}}\Bigr|_{\kappa(u)}\diff{x^{\alpha}(\pi(\gamma(t)))}{t}\Bigr|_{t=0} \\
+               &= \frac{\partial f(\Psi_{\kappa(u)}(\sigma\circ x^{-1}\circ x^{\alpha}(\pi(\gamma(t)))))}{\partial x^{\alpha}}\Bigr|_{\kappa(u)}\diff{x^{\alpha}(\pi(\gamma(t)))}{t}\Bigr|_{t=0} \\
+               &= \frac{\partial f\circ (\Psi_{\kappa(u)}(\sigma))\circ x^{-1}(x^{\alpha})}{\partial x^{\alpha}}\Bigr|_{\kappa(u)}\diff{x^{\alpha}(\pi(\gamma(t)))}{t}\Bigr|_{t=0} \\
+               &= \diff{x^{\alpha}(\pi(\gamma(t)))}{t}\Bigr|_{t=0}\frac{\partial}{\partial x^{\alpha}}(f\circ (\Psi_{\kappa(u)}(\sigma))) \\
+               &= \nu[f\circ (\Psi_{\kappa(u)}(\sigma))] = (\Psi_{\kappa(u)}(\sigma))_{\ast}\nu[f]
+\end{align*}
+\begin{align*}
+    V_{\kappa}[f] &= \frac{\partial f(\Psi(\sigma\circ x^{-1}\circ x^{\alpha}(\pi(\gamma(t))), g^{-1}\circ g^{\sigma}_{\rho}(\kappa(\gamma(t)))))}{\partial g^{\sigma}_{\rho}}\Bigr|_{\sigma(\pi(u))}\diff{g^{\sigma}_{\rho}(\kappa(\gamma(t)))}{t}\Bigr|_{t=0} \\
+               &= \frac{\partial f\circ\Psi_{\sigma(\pi(u))}\circ g^{-1}(g^{\sigma}_{\rho})}{\partial g^{\sigma}_{\rho}}\Bigr|_{\sigma(\pi(u))}\diff{g^{\sigma}_{\rho}(\kappa(\gamma(t)))}{t}\Bigr|_{t=0} \\
+               &= \diff{g^{\sigma}_{\rho}(\kappa(\gamma(t)))}{t}\Bigr|_{t=0}\frac{\partial}{\partial g^{\sigma}_{\rho}}(f\circ\Psi_{\sigma(\pi(u))}) \\
+               &= \eta[f\circ\Psi_{\sigma(\pi(u))}] \\
+               &= (\Psi_{\sigma(\pi(u))})_{\ast}\eta[f]
+\end{align*}
+Combining the above two pieces we get
+\begin{align}
+    X &= (\Psi_{\kappa(u)}(\sigma))_{\ast}\nu + (\Psi_{\sigma(\pi(u))})_{\ast}\eta
+\end{align}
+
+\subsubsection{Case 1: $X \in V_{u}P $ }
+If the $X$ is in vertical subspace $V_{u}P $ then according to the definition of vertical subspace there always exists a natural curve $\gamma(t)=u.\exp(tA)$ such that $X$ is tangent vector this curve at point $u$. The above curve completely lies in the fibre space of a single base point $p = \pi(\gamma(t))$. The curve $\gamma(t) $ in $U\times G$ is $\chi(\gamma(t)) = (\pi(\gamma(t)), \kappa(\gamma(t))) = (p, \kappa(\gamma(t)))$. Now $\kappa(\gamma(t)) = \kappa(u.\exp(tA)) = \kappa(u).\exp(tA)$ is a curve on group manifold $G$ whose tangent vector at $\kappa(u)$ is $\eta$ and is generated by $A \in \mathfrak{g}$ which can be given by $A = \Xi_{\kappa(u)}(\eta)$. Also we have $\nu$ vector to be $0$ as the curve in $M$ is just a constant point $p$. So the whole contribution of $\omega(X)$ comes from $\eta$ and can be stated as
+\begin{align*}
+    \omega(X) &= \omega\Bigr|_{\sigma} \\
+              &= A \\
+              &= \Xi_{\kappa(u)}(\eta) \\
+              &= \Xi_{\kappa(u)}(\kappa_{\ast}X) \\
+              &= \kappa^{\ast}\Xi_{\kappa(u)}(X)
+\end{align*} which completes the proof. This case illustrates that $\eta$ component of $X$ is purely vertical and contributes to the $\omega(X)$ through the Maurer-Cartan form of $\eta$.
+\subsubsection{Case 2: $X = X_{Ver} + X_{Hor} \in T_{u}P$}
+Now we have all the ingredients to calculate $\omega_{u}(X)$ \\
+\begin{align*}
+    \omega_{u}(X) &= \omega_{u}((\Psi_{\kappa(u)}(\sigma))_{\ast}\nu + (\Psi_{\sigma(\pi(u))})_{\ast}\eta) \\
+                  &= \omega_{u}((\Psi_{\kappa(u)}(\sigma))_{\ast}\nu) + \omega_{u}((\Psi_{\sigma(\pi(u))})_{\ast}\eta)
+\end{align*}
+where the first term can be further simplified using properties of connection one-form \\
+\begin{align*}
+\omega_{u}((\Psi_{\kappa(u)}(\sigma))_{\ast}\nu)
+              &= \omega_{u}((\Psi_{\kappa(u)})_{\ast}(\sigma)_{\ast}\nu) \\
+              &= (\Psi_{\kappa(u)})^{\ast}\omega_{u}(\sigma_{\ast}\nu) \\
+              &= (Ad_{\kappa(u)^{-1}})_{\ast}(\omega_{\sigma}(\sigma_{\ast}\nu)) \\
+              &= (Ad_{\kappa(u)^{-1}})_{\ast}(\sigma^{\ast}\omega_{\sigma}(\nu)) \\
+              &= (Ad_{\kappa(u)^{-1}})_{\ast}(A(\nu)) \\
+              &= (Ad_{\kappa(u)^{-1}})_{\ast}(A(\pi_{\ast}X)) \\
+              &= (Ad_{\kappa(u)^{-1}})_{\ast}(\pi^{\ast}A(X))
+\end{align*} where in third step we have used the property of connection one-form given in section \ref{property}, in fifth step we used the definition of $A = \sigma^{\ast}\omega_{\sigma}$ and in sixth step we used the definition of $\nu = \pi_{\ast}X $. Now the second term is simplified as \\ 
+\begin{align*}
+    \omega_{u}((\Psi_{\sigma(\pi(u))})_{\ast}\eta) &= \Xi_{\kappa(u)}(\eta) \\
+                                                   &= \Xi_{\kappa(u)}(\kappa_{\ast}X) \\
+                                                   &= \kappa^{\ast}\Xi_{\kappa(u)}(X)
+\end{align*} combining the two terms we recover the equation
+\begin{equation}
+    \omega(X) = (Ad_{\kappa(u)^{-1}})_{\ast}(\pi^{\ast}A(X)) + \kappa^{\ast}\Xi_{\kappa(u)}(X)
+\end{equation}
+\section{Compatibility of local connections}
+In the start of the above analysis we assumed the availability of a section $\sigma$ on the local chart $U \subset M$. Now in the cases in which we are interested, we always have a natural choice of section on the principal bundle (frame bundle) which is set of coordinate basis. Now it happens that on the overlap of two charts $U_{i}$ and $U_{j}$ we have two different section $\sigma_{i}$ and $\sigma_{j}$. We have a unique connection one-form $\omega$ in the principal bundle but now we have two different ways in which we can pull-back this connection one-form to the base manifold to get a local Yang-Mills field namely $A_{i}$ and $A_{j}$. Now the compatibility conditions states that for every $u \in P$ the connection one-form $\omega_{u}$ constructed from $A_{i}$ and $A_{j}$ should be same and this gives us a condition on $A_{i}$ and $A_{j}$. We will consider a more general situation in which we have been given two sections $\sigma_{1}$ and $\sigma_{2}$ defined on $U_{1}$ and $U_{2}$ and related as
+\[
+\sigma_{2}(p) = \Psi(\sigma_{1}(p), \kappa(p))
+\] such that $p$ belongs to the overlapping region on which the two local sections are defined simultaneously. To find the compatibility condition we again consider a curve $\gamma(t) \in U_{1} \cap U_{2}$ originating at point $p$ such that vector $X \in T_{p}(U_{1} \cap U_{2})$ is tangent to the curve at point $p$
+\begin{align*}
+    \diff{f(\sigma_{2}(\gamma(t)))}{t}\Bigr|_{t=0} &= \diff{f(\sigma_{2}\circ x^{-1}(x^{\alpha}(\gamma(t))))}{t}\Bigr|_{t=0} \\
+                                                   &= \diff{x^{\alpha}(\gamma(t))}{t}\Bigr|_{t=0}\frac{\partial}{\partial x^{\alpha}}(f\circ\sigma_{2}) \\
+                                                   &= X[f\circ\sigma_{2}] \\
+                                                   &= (\sigma_2)_{\ast}X[f]
+\end{align*}However we can calculate the same quantity as \\
+\begin{align*}
+    \diff{f(\sigma_{2}(\gamma(t)))}{t}\Bigr|_{t=0} = \diff{f\circ\Psi(\sigma_{1}(\gamma(t)), \kappa(\gamma(t)))}{t}\Bigr|_{t=0}
+\end{align*}If we observe the above expression, it is similar to the one considered in the section \ref{derivation} and so we will directly write the expression \\
+\begin{align*}
+    (\sigma_2)_{\ast}X = (\Psi_{\kappa(p)})_{\ast}(\sigma_{1})_{\ast}X + (\Psi_{\sigma_{1}(p)})_{\ast}\eta
+\end{align*} Now we act on the expression with connection one-form $\omega_{\sigma_{2}(p)}$ \\
+\begin{align*}
+    \omega_{\sigma_{2}(p)}((\sigma_2)_{\ast}X) &= \omega_{\sigma_{2}(p)}((\Psi_{\kappa(p)})_{\ast}(\sigma_{1})_{\ast}X + (\Psi_{\sigma_{1}(p)})_{\ast}\eta) \\
+  \sigma_2^{\ast}\omega_{\sigma_{2}(p)}(X) &= (Ad_{\kappa(p)^{-1}})_{\ast}(\sigma_{1}^{\ast}\omega_{\sigma_{1}}(X)) + \kappa^{\ast}\Xi_{\kappa(p)}(X) \\
+\end{align*} 
+\begin{equation}\label{compatiblity}
+    A_{2}(X) = (Ad_{\kappa(p)^{-1}})_{\ast}(A_{1}(X)) + \kappa^{\ast}\Xi_{\kappa(p)}(X)
+\end{equation}
+We have derived the compatibility condition which local Yang-Mills forms defined with respect to two different sections should satisfy on the overlapping region. We can also say that this is the transformation law of Yang-Mills field under local gauge transformation by action of $\kappa(p)$ (local means that the $\kappa$ is a function of the point $p$ on the base manifold). We now look into an important case of sections $\sigma_{i}$ and $\sigma_{j}$ corresponding to local trivialization $\chi_{i}$ and $\chi_{j}$ defined on charts $U_{i}$ and $U_{j}$. We show that in this case $\kappa(p) = t_{ij}(p)$, where $t_{ij} \colon U_{i} \cap U_{j} \to G$ is the transition function on the principal bundle.
+\begin{align*}
+    \sigma_{j}(p) &= \chi_{i}^{-1}(p, e) = \chi_{i}^{-1}(p, t_{ij}.e) \\
+                  &= \Psi(\chi_{i}^{-1}(p, e), t_{ij}(p)) \\
+                  &= \Psi(\sigma_{i}(p), t_{ij}(p)) \\
+\end{align*}so the compatibility conditions becomes
+\begin{equation}
+    A_{j}(X) = (Ad_{t_{ij}(p)^{-1}})_{\ast}(A_{i}(X)) + t_{ij}^{\ast}\Xi_{t_{ij}(p)}(X)
+\end{equation}
+We can now state the reverse argument which says that given any two local form $A_{i}$ and $A_{j}$ in the charts $U_{i}$ and $U_{j}$ respectively and following the compatibility condition for $p \in U_{i} \cap U_{j}$ can be used to reconstruct a unique connection one-form globally on the principal bundle.
+
+\section{Special Case : $G \cong GL(m, \mathbb{R})$}
+Till now we have discussed a general purely geometric formalism of the theory of connections and their local Yang-Mills representations without considering any special structure on the topological group manifold $G$. Most of the above expressions simplify if we consider some more structure on the group manifold and so in this section we will be considering the structure group to be $GL(m, \mathbb{R})$ which is group of general linear invertible matrices under composition to be standard matrix multiplication. Here $m$ is the dimension of the vector space on which they operate and we choose to work over the $\mathbb{R}$ field\footnote{We can also extend this choice to $\mathbb{C}$ or $\mathbb{H}$.}. This case is very important in physics as frame bundles have structure group which is subgroups of $GL(m, \mathbb{R})$
+
+The coordinates of $\matr{a} \in GL(m, \mathbb{R})$ is just entries of the matrix which we will denote by $g^{\sigma}_{\rho}(\matr{a})$ and we have an obvious identity
+\[
+g^{\sigma}_{\rho}(\matr{a}.\matr{g}) = g^{\sigma}_{\mu}(\matr{a})g^{\mu}_{\rho}(\matr{g})
+\] for all $\matr{a}, \matr{g} \in GL(m, \mathbb{R})$. Let $V \in T_{e}G \cong \mathfrak{g}$ and we wish to find $(L_{a})_{\ast}(V)$ for $GL(m, \mathbb{R})$ case, expressing it in terms of coordinates
+\begin{align*}
+    [(L_{a})_{\ast}(V)]^{\sigma}_{\rho} &= V^{\mu}_{\nu}\frac{\partial g^{\sigma}_{\lambda}(\matr{a})g^{\lambda}_{\rho}(\matr{e})}{\partial g^{\mu}_{\nu}(\matr{e})} \\
+                                        &= V^{\mu}_{\nu}g^{\sigma}_{\lambda}(\matr{a})\frac{\partial g^{\lambda}_{\rho}(\matr{e})}{\partial g^{\mu}_{\nu}(\matr{e})} \\
+                                        &= V^{\mu}_{\nu}g^{\sigma}_{\lambda}(\matr{a})\delta^{\lambda}_{\mu}\delta^{\nu}_{\rho} \\
+                                        &= V^{\lambda}_{\rho}g^{\sigma}_{\lambda}(\matr{a}) \\
+                      (L_{a})_{\ast}(V) &= \matr{a}.\matr{V}
+\end{align*}The maurer-cartan form also takes a very simple form
+\[
+\Xi_{a} = g^{\alpha}_{\mu}(\matr{a}^{-1})dg^{\mu}_{\beta}(\matr{a})
+\]
+Proof:
+Consider $X \in T_{a}G$ to be left-translated vector of some vector $V \in T_{e}G \cong \mathfrak{g}$ and so it should be true that $\Xi_{a}(X) = V$. Let us check for that
+\begin{align*}
+    [\Xi_{a}(X)]^{\alpha}_{\beta} &= g^{\alpha}_{\mu}(\matr{a}^{-1})\langle dg^{\mu}_{\beta}(\matr{a}), X\rangle \\
+               &= g^{\alpha}_{\mu}(\matr{a}^{-1})\langle dg^{\mu}_{\beta}(\matr{a}), V^{\lambda}_{\rho}g^{\sigma}_{\lambda}(\matr{a})(\frac{\partial}{\partial g^{\sigma}_{\rho}(\matr{a})})\rangle \\
+               &= g^{\alpha}_{\mu}(\matr{a}^{-1})V^{\lambda}_{\rho}g^{\sigma}_{\lambda}(\matr{a})\langle dg^{\mu}_{\beta}(\matr{a}),\frac{\partial}{\partial g^{\sigma}_{\rho}(\matr{a})}\rangle \\
+               &= g^{\alpha}_{\mu}(\matr{a}^{-1})V^{\lambda}_{\rho}g^{\sigma}_{\lambda}(\matr{a})\delta^{\mu}_{\sigma}\delta^{\rho}_{\beta} \\
+               &= g^{\alpha}_{\sigma}(\matr{a}^{-1})V^{\lambda}_{\beta}g^{\sigma}_{\lambda}(\matr{a}) \\
+               &= V^{\alpha}_{\beta}
+\end{align*} where we used $g^{\alpha}_{\sigma}(\matr{a}^{-1})g^{\sigma}_{\lambda}(\matr{a}) = \delta^{\alpha}_{\lambda}$ and this completes the proof. Similarly one can show
+\begin{align*}
+    (Ad_{a^{-1}})_{\ast}V = \matr{a}^{-1}\matr{V}\matr{a}
+\end{align*} where $V \in T_{e}G \cong \mathfrak{g}$. \\
+We can also calculate $\kappa^{\ast}\Xi_{\kappa(p)}$ where $\kappa \colon U \to G$ and $p \in U$
+\begin{align*}
+    [\kappa^{\ast}\Xi_{\kappa(p)}]^{\alpha}_{\beta} &= g^{\alpha}_{\mu}(\kappa(p)^{-1})\frac{\partial g^{\mu}_{\beta}(\kappa(p))}{\partial x^{\nu}(p)}dx^{\nu}(p) \\
+                                                    &= g^{\alpha}_{\mu}(\kappa(p)^{-1})dg^{\mu}_{\beta}(\kappa(p)) \\
+                       \kappa^{\ast}\Xi_{\kappa(p)} &= \boldsymbol{\kappa(p)}^{-1}d\boldsymbol{\kappa(p)}
+\end{align*} putting these pieces together into the compatibility condition equation (\ref{compatiblity})
+\begin{equation}
+    A_{2}(X) = \boldsymbol{\kappa(p)^{-1}}A_{1}(X)\boldsymbol{\kappa(p)} + \boldsymbol{\kappa(p)}^{-1}d\boldsymbol{\kappa(p)}(X)
+\end{equation} which is a much more familiar expression for gauge transformation given in standard texts. \\
+Let us take an example of $G \cong U(1)$ where $\kappa(p) = \exp{i\Lambda(p)}$ and the above compatibility condition becomes
+\begin{align*}
+    A_{2} &= A_{1} + d\Lambda(p) \\
+    (A_{2})_{\mu} &= (A_{1})_{\mu} + \partial_{\mu}\Lambda(p)
+\end{align*} which is the familiar gauge transformation relation of electromagnetic potential. \\
+We can do even more in this case by considering natural sections induced by coordinate charts on the base manifold. 
+\subsection{Chart induced sections on Frame bundle}
+Let us take coordinates on chart $U \in M $ to be $\{x^{\mu}\}$ and then we have a natural section
+\begin{align*}
+    \sigma \colon p \mapsto \{\frac{\partial}{\partial x^{1}}\dots\frac{\partial}{\partial x^{\mu}}\Bigr|_{p}\}
+\end{align*}where $\mu = dim(M)$. The frame bundle $LM$ has free right-action 
+\begin{align*}
+    \Psi \colon (\{\hat{e}_{\alpha}\}, \matr{a}) \mapsto \{\hat{e}_{\alpha}g^{\alpha}_{1}(\matr{a})\dots \hat{e}_{\alpha}g^{\alpha}_{\mu}(\matr{a})\}
+\end{align*} where $\{\hat{e}_{\alpha}\} \in LM$ and $\matr{a} \in GL(m, \mathbb{R})$. \\
+The change of coordinates in the above language of frame bundle can be regarded as change of natural section from one coordinate chart to the other. Let $x^{\mu}$ be coordinates on chart $U_{i} \subset M$ and $y^{\nu}$ be coordinates on chart $U_{j}\subset M$ and so the above right-action can be written as
+\begin{align*}
+    \Psi \colon (\{\frac{\partial}{\partial x^{\alpha}}\Bigr|_{p}\}, \frac{\partial x^{\sigma}}{\partial y^{\rho}}(p)) \mapsto \{\frac{\partial x^{\alpha}}{\partial y^{1}}\frac{\partial}{\partial x^{\alpha}}\Bigr|_{p}\dots \frac{\partial x^{\alpha}}{\partial y^{\mu}}\frac{\partial}{\partial x^{\alpha}}\Bigr|_{p}\} = \{\frac{\partial}{\partial y^{1}}\Bigr|_{p}\dots\frac{\partial}{\partial y^{\mu}}\Bigr|_{p}\}
+\end{align*} where $\matr{a}$ used here is just coordinate transformation matrix which is in accordance with the fact that the transformation between two sections which also provides local trivialization is equal to the transition function. Given the above setup we have local connection $\mathfrak{g}$-valued one-form which most of you is familiar with
+\[
+\Gamma^{\alpha}_{\beta\mu}dx^{\mu}
+\] where $\mu$ is the index attached with the one-form basis whereas $\alpha$ and $\beta$ are the matrix indices ($\mathfrak{g}$ valued - $dim(M)\times dim(M)$ $matrices \in \mathfrak{g}\mathfrak{l}(m, \mathbb{R})$ in case of $ GL(m, \mathbb{R}) $). We boldly say that the connection one-form defined above is our good old friend "christoffel symbols" from general relativity ! Let us strengthen our claim by calculating it's transformation law (compatibility condition)
+\begin{align*}
+    \Gamma^{\prime \alpha}_{\beta\sigma}dy^{\sigma} &= (g^{\alpha}_{\nu}(\matr{a}^{-1})\Gamma^{\nu}_{\lambda\mu}g^{\lambda}_{\beta}(\matr{a}) + g^{\alpha}_{\nu}(\matr{a}^{-1})\partial_{\mu} g^{\nu}_{\beta}(\matr{a}))dx^{\mu} \\
+                                              &= (\frac{\partial y^{\alpha}}{\partial x^{\nu}}\frac{\partial x^{\lambda}}{\partial y^{\beta}}\Gamma^{\nu}_{\lambda\mu} + \frac{\partial y^{\alpha}}{\partial x^{\nu}}\frac{\partial}{\partial x^{\mu}}\frac{\partial x^{\nu}}{\partial y^{\beta}})\frac{\partial x^{\mu}}{\partial y^{\sigma}}dy^{\sigma} \\
+         \Gamma^{\prime \alpha}_{\beta\sigma} &= \frac{\partial y^{\alpha}}{\partial x^{\nu}}(\frac{\partial x^{\lambda}}{\partial y^{\beta}}\frac{\partial x^{\mu}}{\partial y^{\sigma}}\Gamma^{\nu}_{\lambda\mu} + \frac{\partial}{\partial y^{\sigma}}\frac{\partial x^{\nu}}{\partial y^{\beta}})
+\end{align*} which the familiar transformation law of christoffel symbols. In any elementary general relativity courses, one thing is stressed upon very frequently and that is "christoffel symbols are not tensors ! they do not follow tensor transformation law". This statement is not at all restrictive to just the case of christoffel symbols and now we know that christoffel symbols are just one example of local connection one-form for a particular choice of section and in general local connection-one forms do not transform like a tensor\footnote{Note that at a more fundamental level, transformation laws of tensors are directed by the underlying principal bundle to which tensors just lie in the associated bundle.}.
+\section{Covariant Derivative on Principal Bundle}
+An arbitrary $\Delta$ valued $k-$form $\alpha\in \Omega^{k}(M)\bigotimes\Delta$ where $M$ is the manifold on which it is defined and $\Delta(+, .)$ is a general vector space can be written as follows
+\[
+\alpha = \alpha^{a}_{\mu}dx^{\mu}\otimes\delta_{a}
+\] where $\delta_{a}\in\Delta$ is the basis of $\Delta$. One example of this newly defined arbitrary valud form is our old friend connection one-form $\omega$ which is $\mathfrak{g}$ valued and is defined on principal bundle. \\
+Now we can define arbitrary valued covariant derivative with respect to connection one-form $\omega$ as follows
+\begin{equation}\label{eq:2}
+    D_{\omega}\alpha(X_{1}, \dots X_{k+1})\coloneqq d\alpha(X^{H}_{1}, \dots X^{H}_{k+1})
+\end{equation} where $X_{i}\in T_{p}M$ and $X^{H}_{i}$ is the horizontal component of $X_{i}$. 
+\subsection{Curvature 2-form}
+We can immediately find covariant derivative of connection one-form $\omega$ which is called as curvature two-form $\Omega$ and will be useful in defining familiar definition of curvature tensor on the base manifold
+\begin{equation*}
+    \Omega(X, Y) \coloneqq D\omega(X, Y) = d\omega(X^{H}, Y^{H})
+\end{equation*} Expressing $X^{H} = X - X^{V}$ and $Y^{H} = Y- Y^{H}$ and putting it in the above expression
+\begin{align*}
+    D\omega(X, Y) &= d\omega(X - X^{V}, Y - Y^{H}) \\
+                  &= d\omega(X, Y) - d\omega(X^{V}, Y) - d\omega(X, Y^{V}) + d\omega(X^{V}, Y^{V})
+\end{align*} Let $\omega(X) = \omega(X^{V}) = A$ and $\omega(Y) = \omega(Y^{V}) = B$. \\
+We will need the following propositions
+\begin{itemize}
+    \item $d\xi(X, Y) = X[\xi(Y)] - Y[\xi(X)] + \xi([X, Y])$ holds true for any 2-form $\xi$ and all $X$ and $Y$.
+    \item if $V\in V_{u}P$ and $W\in H_{u}P$ then $[V, W] \in H_{u}P$ for any $V$ and $W$.
+    \item For any $V, W\in V_{u}P$, $\omega([V, W]) = [\omega(V), \omega(W)]$ holds true.
+\end{itemize}
+Consider the term
+\begin{align*}
+    d\omega(X^{V}, Y) &= X^{V}[\omega(Y)] - Y[\omega(X^{V})] - \omega([X^{V}, Y]) \\
+                      &= X^{V}[B] - Y[A] - \omega([X^{V}, Y^{V} + Y^{H}]) \\
+                      &= X^{V}[B] - Y[A] - \omega([X^{V}, Y^{V}]) \\
+                      &= X^{V}[B] - Y[A] - [\omega(X^{V}), \omega(Y^{V})] \\
+                      &= X^{V}[B] - Y[A] - [A, B]
+\end{align*} and the next term
+\begin{align*}
+    d\omega(X, Y^{V}) &= X[\omega(Y^{V})] - Y^{V}[\omega(X)] - \omega([X, Y^{V}]) \\
+                      &= X[B] - Y^{V}[A] - [A, B]
+\end{align*} and the last term
+\begin{align*}
+    d\omega(X^{V}, Y^{V}) &= X^{V}[\omega(Y^{V})] - Y^{V}[\omega(X^{V})] - \omega([X^{V}, Y^{V}]) \\
+                          &= X^{V}[B] - Y^{V}[A] - [A, B] \\
+\end{align*} Putting this all together we get
+\begin{equation*}
+    \begin{split}
+        d\omega(X, Y) - d\omega(X^{V}, Y) - d\omega(X, Y^{V}) + d\omega(X^{V}, Y^{V}) &= d\omega(X, Y) - X^{V}[B] + Y[A] + [A, B] \\
+        & - X[B] + Y^{V}[A] + [A, B] \\
+        & + X^{V}[B] - Y^{V}[A] - [A, B] \\
+        &= d\omega(X, Y) + Y[A] - X[B] + [A, B] \\
+        &= d\omega(X, Y) + [\omega(X), \omega(Y)]
+    \end{split}
+\end{equation*} and finally we have proved an extremely important equation
+known as Cartan struture equation
+\begin{equation}\label{eq:6}
+    D\omega(X, Y) = d\omega(X, Y) + [\omega(X), \omega(Y)] = \Omega(X, Y)
+\end{equation} or we can write it as
+\begin{equation*}
+    D\omega = d\omega + \omega\wedge\omega
+\end{equation*}
+This quantity is useful as we can prove that the above curvature two-form is generator of holonomy group and so we have exactly same information capture by holonomy group as that of by curvature tensor. This provides a new more algebraic viewpoint to the curvature properties of the bundle. Some brief introduction to this will be given in the next section.
+Careful readers will we skeptical about the notation used in the above equation as wedge product of two same forms is zero, but that was the case when the forms were real valued however in the equation above we have $\mathfrak{g}-$ valued form which do not commute and hence is not zero on anti-symmetrization. Let us make this point clear by considering a $\mathfrak{g}-$ valued $r-$ form $\alpha$ and another $\mathfrak{g}-$ valued $p-$ form $\beta$ which can be written as
+\begin{equation*}
+    \xi = \xi^{\alpha}\otimes T_{\alpha}
+\end{equation*}
+\begin{equation*}
+    \eta = \eta^{\beta}\otimes T_{\beta}
+\end{equation*} where $T_{\alpha}$ is basis of lie-algebra $\mathfrak{g}$.
+We now define lie-bracket of $\mathfrak{g}-$ value forms
+\begin{equation*}\label{eq:4}
+    [\xi, \eta] \coloneqq \xi\wedge\eta - (-1)^{rp} \eta\wedge\xi
+\end{equation*}If forms were real valued then the above expression will be zero, but it is not the case here as we will see
+\begin{align*}
+    \xi\wedge\eta(X_{1}, \dots X_{r+p}) &= \sum_{P\in S_{r+p}}\frac{1}{r!p!}(-1)^{sgn(P)}\xi(X_{P(1)}, \dots X_{P(r)})\eta(X_{P(r+1)}, \dots X_{P(r+p)})) \\
+                                        &= \sum_{P\in S_{r+p}}\frac{1}{r!p!}(-1)^{sgn(P)}\xi^{\alpha}(X_{P(1)}, \dots X_{P(r)})T_{\alpha}\eta^{\beta}(X_{P(r+1)}, \dots X_{P(r+p)}))T_{\beta} \\
+                                        &= \sum_{P\in S_{r+p}}\frac{1}{r!p!}(-1)^{sgn(P)}\xi^{\alpha}(X_{P(1)}, \dots X_{P(r)})\eta^{\beta}(X_{P(r+1)}, \dots X_{P(r+p)}))T_{\alpha}T_{\beta} \\
+                                        &= (\xi^{\alpha}\wedge\eta^{\beta})\otimes T_{\alpha}T_{\beta}(X_{1}, \dots X_{r+p})
+\end{align*} Using the above expression in \ref{eq:4} we get
+\begin{align*}
+    \xi\wedge\eta - (-1)^{rp} \eta\wedge\xi &= (\xi^{\alpha}\wedge\eta^{\beta})\otimes T_{\alpha}T_{\beta} - (-1)^{rp}(\eta^{\beta}\wedge\xi^{\alpha})\otimes T_{\beta}T_{\alpha} \\
+                                            &= (\xi^{\alpha}\wedge\eta^{\beta})\otimes(T_{\alpha}T_{\beta} - T_{\beta}T_{\alpha}) \\
+                                            &= (\xi^{\alpha}\wedge\eta^{\beta})\otimes [T_{\alpha}, T_{\beta}] \\
+                                            &= (\xi^{\alpha}\wedge\eta^{\beta})\otimes f_{\alpha\beta}^{\gamma}T_{\gamma}
+\end{align*} where $f_{\alpha\beta}^{\gamma}$ are structure constant of the lie-algebra of the structure group. We have proved that 
+\begin{equation*}
+    [\xi, \eta] = (\xi^{\alpha}\wedge\eta^{\beta})\otimes f_{\alpha\beta}^{\gamma}T_{\gamma}
+\end{equation*}
+\subsection{Physical meaning of Curvature 2-form}
+Let us take an example where principal bundle is the frame bundle (where each point in the bundle is a set of basis for the tangent space on the base manifold) where we have an structure group which is subgroup of $GL(m, \mathbb{R})$. The right action of structure group on frame bundle is free and so fibre space is isomorphic to the structure group itself. Now vertical vectors lie in the fibre space and is responsible for changing the basis at the same point on the base manifold and horizontal vectors are responsible for connecting two different basis (frames) at different point on the base manifold. A general curve in the frame bundle is a combination of these two effects. Let us consider $p\in M$ and vectors $\partial_{\alpha}, \partial_{\beta}\in T_{p}M$ such that there horizontal lift on principal bundle at point $u$ is $V, W\in H_{u}P$. We also know the following proposition
+\begin{itemize}
+    \item For any two vectors $V, W\in H_{u}P$ such that $\pi_{\ast}(V) = X\in T_{p}M$ and $\pi_{\ast}(W) = Y\in T_{p}M$ then $\pi_{\ast}([V, W]^{H}) = [X, Y]$ which is the statement that the horizontal component of $[V, W]$ is the horizontal lift of the vector $[X, Y]$.
+\end{itemize}
+Using this we have
+\begin{align*}
+    \pi_{\ast}([V, W]^{H}) &= [\pi_{\ast}(V), \pi_{\ast}(W)] \\
+                           &= [\partial_{\alpha}, \partial_{\beta}] \\
+                           &= 0
+\end{align*} which means that vector $[V, W]$ is vertical and we have $[V, W]^{V} = [V, W]$. We also know that lie-bracket captures the failure of flow trajectories being closed along two different vectors and if it is zero then the two flows form a closed loop with two flows leading to the exactly same point. Consider the expression for curvature two-form \ref{eq:6}
+and evaluate this with horizontal vectors $V, W\in H_{u}P$
+\begin{align*}
+    D\omega(V, W) &= d\omega(V, W) + [\omega(V), \omega(W)] \\
+                  &= d\omega(V, W) \\
+                  &= V[\omega(W)] - W[\omega(V)] - \omega([V, W]) \\
+                  &= -\omega([V, W]) \\
+    \Omega(V, W)  &= -\omega([V, W]^{V})
+\end{align*}The above quantity $\omega([V, W]^{V})\in \mathfrak{g}$ is the generator of induced vector $[V, W]$ and so the curvature 2-form $\Omega(V, W)$ is the generator of the transformation between the frames horizontally reached by two different curves on the base manifold with tangent vectors $\partial_{\alpha}$ and $\partial_{\beta}$. The set of transformations corresponding to all possible closed loops at a point has a group structure (with composition defined by the composition of loops) called as Holonomy group. The closing statement is that curvature 2-form physically captures the information of how a frame will change along a horizontal lifted closed curve.
+\subsection{Covariant derivative of $\sigma-$ horizontal type forms}
+Note that we can calculate covariant derivative for any arbitrary valued $k$-form without any special properties whatsoever but for our purposes we will now consider a special type of $F-$valued $k-$form known as $\sigma-$ horizontal type form which has the following properties
+\begin{itemize}
+    \item It is annihilated by any vertical vector.
+    \item $(\Psi_{g})^{\ast}\tilde{\alpha} = \sigma_{g^{-1}}\circ\tilde{\alpha}$
+\end{itemize} where $F$ is a vector space manifold which has a finite-dimensional representation of group action $\sigma_{g}$. The importance of these kinds of forms will be clear in subsequent sections when we will discuss covariant derivative on associated bundle. For $\sigma-$ horizontal type $F-$valued $k-$form we can express covariant derivative in a much more elegant way 
+\begin{equation}\label{eq:9}
+    D\tilde{\alpha} = d\tilde{\alpha} + \sigma^{\prime}(\omega)\wedge \tilde{\alpha}
+\end{equation} \\
+Proof:
+Before proving the above expression, we first quote an extremely important identity: \\
+For any $k-$ form $\xi$ the following identity holds true
+\begin{equation}\label{eq:1}
+    \begin{split}
+d\xi(X_{1}, \dots X_{k+1}) &= \sum^{k}_{i=1}(-1)^{i+1}X_{i}\xi(X_{1}, \dots, \hat{X}_{i}, \dots X_{r+1}) \\
+& + \sum_{i < j}(-1)^{i+j}\xi([X_{i}, X_{j}], X_{1}, \dots, \hat{X}_{i}, \dots, \hat{X}_{j}, \dots X_{r+1})
+\end{split}
+\end{equation} where hat represents that the argument is not included.
+Now by definition 
+\begin{equation*}
+    D\tilde{\alpha}(X_{1}\dots X_{k+1}) = d\tilde{\alpha}(X^{H}_{1}\dots X^{H}_{k+1})
+\end{equation*}Writing $X^{H}_{i} = X_{i} - X^{V}_{i}$ and putting it in the above definition and using $\ref{eq:1}$
+\begin{align*}
+    D\tilde{\alpha}(X_{1}\dots X_{k+1}) &= d\tilde{\alpha}(X_{1} - X^{V}_{1}, \dots X_{k+1} - X^{V}_{k+1}) \\
+                                        &= d\tilde{\alpha}(X_{1}, \dots X_{k+1}) - \sum^{k}_{i=1}(-1)^{i}X^{V}_{i}[\tilde{\alpha}(X_{1}, \dots, \hat{X}_{i}, \dots X_{r+1})]
+\end{align*} All other terms in the expression vanishes because of the property of $\sigma-$ horizontal type form which annihilates the vertical vectors. \\
+To prove further we have to workout another important identity
+\begin{align*}
+    X_{0}[\tilde{\alpha}(X_{1}, \dots X_{k})] &= \diff{\tilde{\alpha}_{\Psi_{\exp(tA)}(u)}((\Psi_{\exp(tA)})_{\ast}X_{1}, \dots (\Psi_{\exp(tA)})_{\ast}X_{k})}{t}\Bigr|_{t=0} \\
+                                              &= \diff{(\Psi_{\exp(tA)})^{\ast}\tilde{\alpha}_{\Psi_{\exp(tA)}(u)}(X_{1}, \dots X_{k})}{t}\Bigr|_{t=0} \\
+                                              &= \diff{\sigma_{\exp(-tA)}\circ\tilde{\alpha}_{u}(X_{1}, \dots X_{k})}{t}\Bigr|_{t=0} \\
+                                              &= -\sigma^{\prime}(A)(\tilde{\alpha}(X_{1}, \dots X_{k})) \\
+                                              &= -\sigma^{\prime}(\omega(X_{0}))(\tilde{\alpha}(X_{1}, \dots X_{k}))
+\end{align*} and finally we have a very important identity
+\begin{equation*}\label{eq:10}
+    X_{0}[\tilde{\alpha}(X_{1}, \dots X_{k})] = -\sigma^{\prime}(\omega(X_{0}))(\tilde{\alpha}(X_{1}, \dots X_{k}))
+\end{equation*}
+Here $X_{0}\in V_{u}P$ and $\gamma(t) = \Psi_{\exp(tA)}(u)$ is the curve to which $X_{0}$ is tangent at the point $u\in P$. We put this in the above expression we have,
+\begin{align*}
+   -\sum^{k}_{i=1}(-1)^{i}X^{V}_{i}[\tilde{\alpha}(X_{1}, \dots, \hat{X}_{i}, \dots X_{r+1})] &= \sum^{k}_{i=1}(-1)^{i}\sigma^{\prime}(\omega(X_{i}))(\tilde{\alpha}(X_{1}, \dots, \hat{X_{i}}, \dots X_{k}))
+\end{align*} defining the above expression as
+\begin{equation*}
+    (\sigma^{\prime}(\omega)\wedge\tilde{\alpha})(X_{1}, \dots X_{k+1})\coloneqq \sum^{k}_{i=1}(-1)^{i}\sigma^{\prime}(\omega(X_{i}))(\tilde{\alpha}(X_{1}, \dots, \hat{X_{i}}, \dots X_{k}))
+\end{equation*} Putting all the pieces together we recover the expression \ref{eq:9}. For a moment consider 0-form case of the identity \ref{eq:10}, we have
+\begin{equation}\label{eq:11}
+    X_{0}[\tilde{\alpha}] = -\sigma^{\prime}(\omega(X_{0}))(\tilde{\alpha})
+\end{equation}
+Few things to observe about this identity is as follows
+\begin{itemize}
+    \item Right hand side is a vector $X_{0}\in V_{u}P$ being operated on a $F-$ valued function $\tilde{\alpha}$ and so the result is not a real number (which is, in standard case) but rather an element in $F$.
+    \item Left hand side is a vector in $T_{f}F\cong F$ generated by $A = \omega(X_{0})$ at point $f = \tilde{\alpha}(u)\in F$.
+\end{itemize}
+We can also prove that covariant derivative of a $\sigma-$ horizontal type $k-$ form is again a $\sigma-$ horizontal type $(k+1)-$ form. \\
+Proof: \\
+The first property is immediate from the definition of covariant derivative
+as even if at least one argument is vertical vector then it's horizontal component will be zero and thus from \ref{eq:2} it will be zero and so it annihilates any vertical vector in the argument.
+Second property can be proved by considering
+\begin{align*}
+    (\Psi_{g})^{\ast}D\tilde{\alpha}(X_{1}, \dots X_{k+1}) &= D\tilde{\alpha}((\Psi_{g})_{\ast}X_{1}, \dots (\Psi_{g})_{\ast}X_{k+1}) \\
+                                                           &= d\tilde{\alpha}([(\Psi_{g})_{\ast}X_{1}]^{H}, \dots [(\Psi_{g})_{\ast}X_{k+1}]^{H}) \\
+                                                           &= d\tilde{\alpha}((\Psi_{g})_{\ast}X^{H}_{1}, \dots (\Psi_{g})_{\ast}X^{H}_{k+1}) \\
+                                                           &= (\Psi_{g})^{\ast}d\tilde{\alpha}(X^{H}_{1}, \dots X^{H}_{k+1}) \\
+                                                           &= d(\Psi_{g})^{\ast}\tilde{\alpha}(X^{H}_{1}, \dots X^{H}_{k+1}) \\
+                                                           &= d\sigma_{g^{-1}}\circ\tilde{\alpha}(X^{H}_{1}, \dots X^{H}_{k+1}) \\
+                                                           &= \sigma_{g^{-1}}\circ d\tilde{\alpha}(X^{H}_{1}, \dots X^{H}_{k+1}) \\
+                                                           &= \sigma_{g^{-1}}\circ D\tilde{\alpha}(X_{1}, \dots X_{k+1})
+\end{align*} and finally we can write $(\Psi_{g})^{\ast}D\tilde{\alpha} = \sigma_{g^{-1}}\circ D\tilde{\alpha}$ and hence we can say that the covariant derivative is a $\sigma-$ horizontal type $(k+1)-$ form. 
+\section{Assosiated Bundles}
+We can defining right-action $\Theta_{g}$ on $P\times F$ as:
+\begin{equation*}
+    \Theta_{g}(u, f) \coloneqq (\Psi(u, g), \sigma_{g^{-1}}(f))
+\end{equation*} where $u\in P$ and $f\in F$. Note that here $\sigma_{g}$ can be any finite-dimensional representation of the structure group which can suitably act on the vector space $F$ and so we can have natural outer product representations as well which will act as above on outer product vector space. Once we have defined a right-action on the $P\times F$, we can naturally form a fibre bundle $E = P\times_{G}F$ known as associated bundle. Any point on the associated bundle will be an equivalence class $[(u, f)] = \{(\Psi(u, g), \sigma_{g^{-1}}(f))| \forall g \in G\}$. We have a natural projection mapping $\iota\colon P\times F\to E$ \\
+\[
+\iota\colon (u, f)\mapsto [(u, f)]
+\]
+which in turn gives us to mappings \\
+\begin{equation*}
+    \iota_{u}\colon f\mapsto [(u, f)]
+\end{equation*} from which we can immediately derive
+\begin{align*}
+    \iota_{\Psi(u, g)}(f) &= [(\Psi(u, g), f)] \\
+                          &= [(u, \sigma_{g}(f))] \\
+                          &= \iota_{u}(\sigma_{g}(f)) \\
+                          &= \iota_{u}\circ\sigma_{g}(f)
+\end{align*} and finally we get an important property $\iota_{\Psi(u, g)} = \iota_{u}\circ\sigma_{g}$.
+\begin{equation*}
+    \iota_{f}\colon u\mapsto [(u, f)]
+\end{equation*} We can also define projection map of this fibre bundle by $\pi_{E}([(u, f)]) \coloneqq \pi(u)$ which is independent of the representation of the equivalence class as $\pi(u) = \pi(\Psi(u, g))$.
+Now to represent a point on $E$ we need to fix a particular value of $(u, f)$ which will serve as a representative for the equivalence class $[(u, f)]$ corresponding to that point. The fixing of $(u, f)$ is called gauge-fixing. We saw previously that defining a section provided us with local trivialization on the principal bundle, we can follow a similar procedure and can get induced local trivialization on the associated bundle as follows. First we consider a section $s\colon M\to P$ on principal bundle and then we can define a local trivialization as
+\begin{align*}
+    [(u, f)] &= [(\Psi(s(p), g), f)] \\
+             &= [(s(p), \sigma_{g}(f))] \to (p, \sigma_{g}(f))
+\end{align*}where $p = \pi(u) = \pi_{E}([(u, f)])$ . Since the linear finite dimensional group action on $F$ is free and so we get a local trivialization $\xi\colon E\to M\times F$
+\begin{align*}
+    \xi\colon [(u, f)]\mapsto (\pi_{E}([(u, f)]), \sigma_{g}(f))
+\end{align*} and so we can say that the fibre space over the associated bundle is $F$. We can also see an interesting fact that the transition function on the associated bundle is same as that on the principal bundle
+\begin{align*}
+    [(s_{j}(p), f_{j})] &= [(\Psi(s_{j}(p), t_{ij}(p)), f_{j})] \\
+                    &= [(s_{i}(p), \sigma_{t_{ij}(p)}(f_{j}))] \\
+                    &= [(s_{i}(p), f_{i})]
+\end{align*} from which we can observe that the section $s_{i}$ induced coordinate $f_{i}$ is related by finite-dimensional group action $\sigma_{t_{ij}(p)}$ to section $s_{j}$ induced coordinate $f_{j}$ which is the same transition function $t_{ij}$ but just expressed in finite-dimensional representation. 
+\subsection{Isomorphism between $\Lambda^{k}(M, E)$ and $\Omega^{k}_{\sigma, Hor}(P, F)$}\label{isomorphism}
+Now we move on to define some important relations between $F-$ valued k-forms on principal bundle and $E-$ valued k-forms on base manifold which will be of great use while defining covariant derivative on associated bundle.
+\begin{itemize}
+    \item Let $\Lambda^{k}(M, E)$ be the space of $E-$ valued $k-$ form on base manifold $M$ and let some arbitrary $\alpha \in \Lambda^{k}(M, E)$.
+    \item Let $\Omega^{k}_{\sigma, Hor}(P, F)$ be the space of $\sigma-$ horizontal type $F-$ valued $k-$ form on principal bundle $P$ and let some arbitrary $\tilde{\alpha} \in \Omega^{k}_{\sigma, Hor}(P, F)$.
+\end{itemize}
+Let $u \in P$ and $p \in M$ such that $\pi(u) = p$. Also consider arbitrary $k$ vectors $\{Y_{i} \in T_{u}P \}_{i=1\dots k}$ and $\{X_{i} \in T_{p}M \}_{i=1\dots k}$such that $\pi_{\ast}(Y_{i}) = X_{i}$. We define
+\begin{align*}
+    \alpha_{p}(X_{1}, \dots X_{k}) \coloneqq \iota_{u}\circ\tilde{\alpha_{u}}(Y_{1}, \dots Y_{k})
+\end{align*} We need to prove that the above definition is independent of the choice of $u$ and $Y_{i}$. So we take another point $u^{\prime}\in P$ such that $\pi(u^{\prime}) = \pi(u) = p$ and we can write $u^{\prime} = \Psi(u, g)$. Also a generalized vector $Y^{\prime}_{i}\in T_{u^{\prime}}P$ can be expressed as $Y^{\prime}_{i} = (\Psi_{g})_{\ast}(Y_{i}) + Z_{i}$ such that $Z_{i}\in V_{u^{\prime}}P$ $\forall i=1\dots k$ are vertical vectors and follows $\pi_{\ast}(Y^{\prime}_{i}) = X_{i}$. \\
+Proof:
+\begin{align*}
+    \iota_{\Psi(u, g)}\circ\tilde{\alpha}_{\Psi(u, g)}(Y^{\prime}_{1}, \dots Y^{\prime}_{k}) &= \iota_{\Psi(u, g)}\circ\tilde{\alpha}_{\Psi(u, g)}((\Psi_{g})_{\ast}(Y_{1}) + Z_{1}, \dots (\Psi_{g})_{\ast}(Y_{k}) + Z_{k}) \\
+                    &= \iota_{\Psi(u, g)}\circ\tilde{\alpha}_{\Psi(u, g)}((\Psi_{g})_{\ast}(Y_{1}), \dots (\Psi_{g})_{\ast}(Y_{k})) \\
+                    &= \iota_{\Psi(u, g)}\circ(\Psi_{g})^{\ast}\tilde{\alpha}_{\Psi(u, g)}(Y_{1}, \dots Y_{k}) \\
+                    &= \iota_{u}\circ\sigma_{g}\circ(\Psi_{g})^{\ast}\tilde{\alpha_{u}}(Y_{1}, \dots Y_{k}) \\
+                    &= \iota_{u}\circ\sigma_{g}\circ(\Psi_{g})^{\ast}\tilde{\alpha_{u}}(Y_{1}, \dots Y_{k}) \\
+                    &= \iota_{u}\circ\sigma_{g}\circ\sigma_{g^{-1}}\circ\tilde{\alpha_{u}}(Y_{1}, \dots Y_{k}) \\
+                    &= \iota_{u}\circ\tilde{\alpha_{u}}(Y_{1}\dots Y_{k})
+\end{align*}
+where in second step we used the property of $\sigma-$ horizontal type form that vertical vectors $Z_{i}$ are annihilated, in fourth step we used the property of natural projection map proved in previous section, in sixth we again used the property of $\sigma-$ horizontal type form. We can also obtain reverse mapping
+\begin{align*}
+    \alpha_{p}(X_{1}, \dots X_{k}) &=  \iota_{u}\circ\tilde{\alpha_{u}}(Y_{1}, \dots Y_{k}) \\
+   \alpha_{p}(\pi_{\ast}(Y_{1}), \dots \pi_{\ast}(Y_{k}))  &= \iota_{u}\circ\tilde{\alpha_{u}}(Y_{1}, \dots Y_{k}) \\
+      \pi^{\ast}\alpha_{p}(Y_{1}\dots Y_{k}) &= \iota_{u}\circ\tilde{\alpha_{u}}(Y_{1}, \dots Y_{k}) \\
+      \iota_{u}^{-1}\circ\pi^{\ast}\alpha_{p}(Y_{1}\dots Y_{k}) &= \tilde{\alpha_{u}}(Y_{1}\dots Y_{k})
+\end{align*} and hence we obtain the reverse mapping
+\begin{equation*}
+    \iota_{u}^{-1}\circ\pi^{\ast}\alpha_{p} = \tilde{\alpha_{u}}
+\end{equation*} and finally we have established the isomorphism between $\Lambda^{k}(M, E)$ and $\Omega^{k}_{\sigma, Hor}(P, F)$
+\begin{itemize}
+    \item $\alpha_{p}(X_{1}, \dots X_{k}) =  \iota_{u}\circ\tilde{\alpha_{u}}(Y_{1}, \dots Y_{k})$
+    \item $\iota_{u}^{-1}\circ\pi^{\ast}\alpha_{p} = \tilde{\alpha_{u}}$
+\end{itemize}
+If we consider the case of $k = 0$ then $\tilde{\alpha}\in \Omega^{0}_{\sigma, Hor}(P, F)$ is a smooth $F-$ valued function on $P$ and $\alpha\in\Lambda^{0}(M, E)$ is a section on $E$ where the isomorphism is defined as
+\begin{itemize}
+    \item $\iota^{-1}\circ\alpha(\pi(u)) \coloneqq \tilde{\alpha}(u) $ - $F-$ valued smooth function on $P$.
+    \item $\alpha(p) \coloneqq [(u, \tilde{\alpha}(u))]$ - A section on $E$.
+\end{itemize} where $u\in P$ is any point in $\pi^{-1}(p)$ and the properties of $\sigma-$ horizontal type form ensures that the above mapping is independent of the chosen $u$.
+\subsection{Induced connection on Associated Bundle}
+Let $u\in P$ and $e = \iota_{f}(u) = [(u, f)]\in E$ and where $f\in F$ is fixed. We will now workout mapping between vertical vector in principal bundle and thus induced vertical vertical vector in associated bundle. Consider a curve in principal bundle $\gamma(t) = \Psi(u, \exp(tA))$ with vector $X^{V}_{u}$ tangent to this curve at point $u$ which is generated by $A\in\mathfrak{g}$ and thus completely lies in fibre space at the point $p = \pi(u)\in M$. Using the natural mapping between principal bundle and associated bundle $\iota_{f}(u) = [(u, f)]\in E$ we have a curve in $E$
+\begin{equation*}
+    \tilde{\gamma}(t) = [(\Psi(u, \exp(tA)), f)]
+\end{equation*}Now consider an arbitrary smooth function $h\colon E\to \mathbb{R}$, then we have
+\begin{align*}
+    X^{V}_{u}[h\circ\iota_{f}] &= \diff{h([\Psi(u, \exp(tA)), f])}{t}\Bigr|_{t=0} \\
+    (\iota_{f})_{\ast}X^{V}_{u}[h] &= \diff{h([\Psi(u, \exp(tA)), f])}{t}\Bigr|_{t=0} \\
+                                   &= \diff{h([u, \sigma_{\exp(tA)}(f)])}{t}\Bigr|_{t=0} \\
+                                   &= \diff{h\circ\iota_{u}(\sigma_{\exp(tA)}(f))}{t}\Bigr|_{t=0} \\
+                                   &= Y_{f}[h\circ\iota_{u}] \\
+   (\iota_{f})_{\ast}X^{V}_{u}[h]  &= (\iota_{u})_{\ast}Y_{f}[h]
+\end{align*} and we know that $\iota_{u}$ is a bijection and so we have
+\begin{equation*}\label{eq:7}
+    \sigma^{\prime}(\omega(X_{u}))\coloneqq(\iota_{u}^{-1}\circ\iota_{f})_{\ast}X^{V}_{u} = Y_{f}\in T_{f}F\cong F
+\end{equation*} where $Y_{f}\in T_{f}F\cong F$ is tangent to the curve $\eta(t) = \sigma_{\exp(tA)}(f)$ in the fibre manifold $F$. We observe one important fact that the above definition provides us with a mapping $\sigma^{\prime}\colon\mathfrak{g}\to T_{f}F\cong F$. Now we can define induced vertical subspace on associated bundle $V_{e}E$ as
+\begin{equation*}
+    Z^{V}_{e} \coloneqq (\iota_{f})_{\ast}X^{V}_{u} = (\iota_{u})_{\ast}Y_{f}
+\end{equation*} we can see that such a definition follows similar property
+\begin{align*}
+    (\pi_{E})_{\ast}(Z^{V}_{e}) &= (\pi_{E}\circ\iota_{f})_{\ast}(X^{V}_{u}) \\
+                                &= (\pi)_{\ast}(X^{V}_{u}) \\
+                                &= 0
+\end{align*} where we have used $\pi_{E}\circ\iota_{f}(u) = \pi(u)$. In similar manner we can define the horizontal subspace $H_{e}E$
+\begin{equation*}
+    Z^{H}_{e} \coloneqq (\iota_{f})_{\ast}X^{H}_{u}
+\end{equation*}
+\subsection{Connection one-form on Associated Bundle}
+We know that $\iota_{u}$ where $u$ is fixed is a bijection and so $\iota_{u\ast}$  provides us with vector space isomorophism between $T_{f}F\cong F$ ($F$ is a vector space - vector bundle) and $V_{e}E$. That means for any $Z\in V_{e}E$ there exist $\mu = (\iota^{-1}_{u})_{\ast}(Z)\in T_{f}F\cong F$ which further maps to $E$ by $\iota_{u}(\mu)\in E$. So we have a one-form $\omega_{E}\colon TE\to E$ defined as
+\begin{equation*}
+    \omega_{E}\coloneqq Z\mapsto \iota_{u}\circ(\iota^{-1}_{u})_{\ast}(Z)\in E
+\end{equation*} We can immediately obtain a direct relation between $\omega_{E}$ and $\omega$ by using $\ref{eq:7}$ where we consider $Z = (\iota_{f})_{\ast}(X^{V}_{u})$, we have
+\begin{align*}
+    \omega_{E}((\iota_{f})_{\ast}(X^{V}_{u})) &= \iota_{u}\circ(\iota^{-1}_{u})_{\ast}((\iota_{f})_{\ast}(X^{V}_{u})) \\
+                                            &= \iota_{u}\circ(\iota^{-1}_{u}\circ\iota_{f})_{\ast}(X^{V}_{u}) \\
+                                            &= \iota_{u}\circ\sigma^{\prime}(\omega(X))
+\end{align*}
+\subsection{Covariant derivative on Associated Bundle - Koszul Calculus}
+We are finally in position to define covariant derivative on associated bundle by exploiting the above isomorphism between $\Lambda^{k}(M, E)$ and $\Omega^{k}_{\sigma, Hor}(P, F)$. Let $u\in P$, $\pi(u)= p\in M$ and $X_{i}\in T_{p}M$, $Y_{i}\in T_{u}P$ satisfying $\pi_{\ast}(Y_{i}) = X_{i}$, we have
+\begin{equation}\label{eq:5}
+    (d_{\omega}\alpha)_{p}(X_{1}, \dots X_{k+1}) \coloneqq \iota_{u}\circ(D_{\omega}\tilde{\alpha})_{u}(Y_{1}, \dots Y_{k+1})
+\end{equation}
+First we will consider a simple and important case of $0-$ forms. In the familiar case of differential geometry where we are interested in finding covariant derivative of vector field (or tensor fields) on base manifold, which when translated in the language of bundles is equivalent to finding covariant derivative of a section $\alpha$ on associated bundle (tangent bundle if we are considering vector field). But we know that for a section on associated bundle there corresponds a $F-$ valued smooth function $\tilde{\alpha}$ on $P$ and by definition \ref{eq:5} we have,
+\begin{align*}
+    (d_{\omega}\alpha)_{p}(X) &= \iota_{u}\circ(D_{\omega}\tilde{\alpha})_{u}(Y) \\
+                              &= \iota_{u}\circ d\tilde{\alpha}(Y^{H}) \\
+                              &= \iota_{u}(Y^{H}[\tilde{\alpha}])
+\end{align*} where $\pi_{\ast}(Y) = \pi_{\ast}(Y^{H}) = X $ and so we can say that $Y^{H}\in H_{u}P$ is horizontal lift of $X\in T_{p}M $. Finally we define the familiar $\nabla$ as
+\begin{equation*}
+    \nabla\alpha(X) = \nabla_{X}\alpha = (d_{\omega}\alpha)_{p}(X) = \iota_{u}(Y^{H}[\tilde{\alpha}])
+\end{equation*}
+We can further obtain a simpler expression of covariant derivative in terms of local connection one-form which will be important in practical calculations. First we consider basis $\{\mathbf{e}_{\alpha}\}$ for the vector space manifold $F$. Let there be a mapping $\tilde{e}_{\alpha}\colon P\to F$ defined by
+\begin{equation*}
+    \tilde{e}_{\alpha}\colon s(p)\mapsto \mathbf{e}_{\alpha}
+\end{equation*} where $s$ is a local section on $P$. Using the induced local trivialization on associated bundle we have an induced basis on $E$
+\begin{equation*}
+    e_{\alpha}(p) \coloneqq [(s(p), \tilde{e}_{\alpha}(s(p)))] = [(s(p), \mathbf{e}_{\alpha})]
+\end{equation*} Now as $e_{\alpha}$ is a section on $E$, we can find it's covariant derivative by considering $X\in T_{p}M$ and $Y\in T_{u}P$ which satisfies $\pi_{\ast}(Y) = X$. As we know that it does not matter what $Y$ and $u$ we chose as far as it satisfies $\pi_{\ast}(Y) = X$ and so we can chose $Y = s_{\ast}(X)$
+\begin{align*}
+    \nabla e_{\alpha}(X) &= \iota_{s(p)}\circ D\tilde{e}_{\alpha}(s_{\ast}(X)) \\
+                         &= \iota_{s(p)}\circ(d\tilde{e}_{\alpha}(s_{\ast}(X)) + \sigma^{\prime}(\omega(s_{\ast}(X)))\tilde{e}_{\alpha}(s(p))) \\
+                         &= \iota_{s(p)}\circ(s_{\ast}(X)[\tilde{e}_{\alpha}] + \sigma^{\prime}(s^{\ast}\omega(X))\mathbf{e}_{\alpha}) \\
+                         &= \iota_{s(p)}\circ(X[\tilde{e}_{\alpha}\circ s] + \sigma^{\prime}(A(X))\mathbf{e}_{\alpha}) \\
+                         &= \iota_{s(p)}\circ A(X)^{\beta}_{\alpha}\mathbf{e}_{\alpha} \\
+                         &= A(X)^{\beta}_{\alpha}\iota_{s(p)}(\mathbf{e}_{\alpha}) \\
+                         &= A(X)^{\beta}_{\alpha}e_{\beta}(p) \\
+                         &= A^{\beta}_{\mu\alpha}X^{\mu}e_{\beta}(p)
+\end{align*} where $A = s^{\ast}(\omega) = A^{\beta}_{\mu\alpha}dx^{\mu}$ (where $\alpha, \beta$ are $\mathfrak{g}-$ valued indices and $\mu$ is form index) is local connection one-form on $M$. Note that $X[\tilde{e}_{\alpha}\circ s] = 0 $ because $\tilde{e}_{\alpha}\circ s(p) = \mathbf{e}_{\alpha}$ is a constant basis on $F$. In the fifth step we have used the fact that the finite linear group representation is in matrix form and hence the lie-algebra will also be in matrix form and so can directly
+act on elements of $F$. We know that local connection one-form corresponding to natural coordinate basis in frame bundle are chistoffel symbols $\Gamma^{\beta}_{\mu\alpha}$ which are very common choice in differential geometry.
+\subsection{Curvature 2-form on Associated Bundle}
+We move on to defining curvature 2-form on associated bundle as
+\begin{equation*}
+    R^{\nabla}_{p}(X, Y) \coloneqq -\iota_{u}\circ\sigma^{\prime}(\Omega_{u}(X^{H}, Y^{H}))\circ\iota^{-1}_{u}
+\end{equation*} where $u\in \pi^{-1}(p)$ and $X^{H}, Y^{H}\in H_{u}P$ which satisfies $\pi_{\ast}(X^{H}) = X, \pi_{\ast}(Y^{H})=Y\in T_{p}M$. Here we have curvature 2-form which is $\mathfrak{g}-$ valued but then use the mapping $\sigma^{\prime}\colon\mathfrak{g}\to F$ to get an effective 2-form on principal bundle which is $F-$ valued. But we know from our discussion in the section \ref{isomorphism} that for any $F-$ valued $k-$ form on principal bundle $P$ has a corresponding $E-$ valued $k-$ form on base manifold $M$ given by the mapping $\iota_{u}\colon F\to E$. Using the mapping \ref{eq:11} in this case, we have
+\begin{align*}
+    \sigma^{\prime}(\Omega(X^{H}, Y^{H}))(\tilde{\alpha}(u)) &= -Ver([X^{H}, Y^{H}])_{u}[\tilde{\alpha}] \\
+                                                             &= -([X^{H}, Y^{H}])[\tilde{\alpha}] + Hor([X^{H}, Y^{H}])[\tilde{\alpha}] \\
+                                                             &= -X^{H}(Y^{H}[\tilde{\alpha}]) + Y^{H}(X^{H}[\tilde{\alpha}]) + ([X, Y]^{H})[\tilde{\alpha}] \\
+                                                             &= -\iota^{-1}_{u}\circ(\nabla_{X}\nabla_{Y}\alpha - \nabla_{Y}\nabla_{X}\alpha - \nabla_{[X, Y]}\alpha)
+\end{align*} and finally we have
+\begin{align*}
+    -\iota_{u}\circ\sigma^{\prime}(\Omega(X^{H}, Y^{H}))\circ\iota^{-1}_{u}(\alpha(p)) &= (\nabla_{X}\nabla_{Y} - \nabla_{Y}\nabla_{X} - \nabla_{[X, Y]})\alpha(p) \\
+            R^{\nabla}_{p}(X, Y)\alpha(p) &= (\nabla_{X}\nabla_{Y} - \nabla_{Y}\nabla_{X} - \nabla_{[X, Y]})\alpha(p)
+\end{align*} This is the standard expression which all of you have seen. 
+When it is first introduced without the language of principal bundle it seems pretty ad-hoc but with the theory of connections we are able to derive this expression from first principles and this shows the power of theory of connections.
+
+\begin{thebibliography}{9}
+\bibitem{nakahara_book} 
+Nakahara, M. 
+\textit{Geometry, topology and physics}, 2003.
+
+\bibitem{rudolph_book} 
+Gerd Rudolph, Matthias Schmidt. 
+\textit{Differential Geometry and Mathematical Physics}.
+Springer Netherlands, 2013.
+
+\end{thebibliography}
+\end{document}
